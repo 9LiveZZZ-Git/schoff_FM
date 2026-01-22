@@ -121,7 +121,7 @@ schoff_FM/
 
 ## License
 
-Copyright 2025 9LiveZZZ
+MIT License - see [LICENSE](LICENSE) for details.
 
 ## Credits
 
