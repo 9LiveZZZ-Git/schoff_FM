@@ -1260,7 +1260,7 @@
                                     <td style="padding-right: 10px;">
                                         <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px;">Wave</div>
                                         <div class="select-wrap">
-                                            <select class="styled-select" id="sub_wave" onchange="sendParam('sub_wave', this.value)">
+                                            <select class="styled-select" id="sub_wave" onchange="sendSelect('sub_wave', this.value)">
                                                 <option value="0">Sine</option>
                                                 <option value="1">Square</option>
                                                 <option value="2">Saw</option>
@@ -1272,7 +1272,7 @@
                                     <td style="padding-right: 10px;">
                                         <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px;">Oct</div>
                                         <div class="select-wrap">
-                                            <select class="styled-select" style="width: 56px;" id="sub_octave" onchange="sendParam('sub_octave', this.value)">
+                                            <select class="styled-select" style="width: 56px;" id="sub_octave" onchange="sendSelect('sub_octave', this.value)">
                                                 <option value="0">-2</option>
                                                 <option value="1" selected>-1</option>
                                             </select>
@@ -1290,7 +1290,7 @@
                                     <td style="padding-right: 10px;">
                                         <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px;">Type</div>
                                         <div class="select-wrap">
-                                            <select class="styled-select" id="noise_type" onchange="sendParam('noise_type', this.value)">
+                                            <select class="styled-select" id="noise_type" onchange="sendSelect('noise_type', this.value)">
                                                 <option value="0">White</option>
                                                 <option value="1">Pink</option>
                                                 <option value="2">Brown</option>
@@ -1394,7 +1394,7 @@
                                 <td style="padding-right: 6px; vertical-align: top;">
                                     <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px;">Type</div>
                                     <div class="select-wrap">
-                                        <select class="styled-select" style="width: 72px;" id="reverb_type" onchange="sendParam('reverb_type', this.value)">
+                                        <select class="styled-select" style="width: 72px;" id="reverb_type" onchange="sendSelect('reverb_type', this.value)">
                                             <option value="0">Freeverb</option>
                                             <option value="1">Zita</option>
                                             <option value="2">Dattorro</option>
@@ -1449,7 +1449,7 @@
                                 <td style="padding-left: 8px; vertical-align: top;">
                                     <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Share Tech Mono', monospace;">Oversample</div>
                                     <div class="select-wrap">
-                                        <select class="styled-select" style="width: 60px;" id="oversampling" onchange="sendParam('oversampling', this.value)">
+                                        <select class="styled-select" style="width: 60px;" id="oversampling" onchange="sendSelect('oversampling', this.value)">
                                             <option value="0" selected>Off</option>
                                             <option value="1">x4</option>
                                             <option value="2">x8</option>
@@ -1512,6 +1512,8 @@ var params = {};
 var dragging = null;
 var lastDraggedParam = null;
 var lastDragEndTime = 0;
+var lastClickedParam = null;
+var lastClickTime = 0;
 var dragStartY = 0;
 var dragStartVal = 0;
 
@@ -1578,6 +1580,12 @@ function sendParam(name, value) {
     console.log('[Param] ' + name + ' = ' + value);
 }
 
+function sendSelect(name, value) {
+    lastClickedParam = name;
+    lastClickTime = Date.now();
+    sendParam(name, value);
+}
+
 function setWave(param, value, btn) {
     var parent = btn.parentNode;
     var btns = parent.getElementsByTagName('button');
@@ -1585,6 +1593,8 @@ function setWave(param, value, btn) {
         btns[i].className = 'wave-btn';
     }
     btn.className = 'wave-btn wave-btn-active';
+    lastClickedParam = param;
+    lastClickTime = Date.now();
     sendParam(param, value);
 }
 
@@ -1791,12 +1801,27 @@ document.onmouseup = function() {
 window.updateParameter = function(param, value) {
     // Don't update while dragging
     if (dragging) return;
-    // Skip updates for the recently dragged param for 500ms
+    // Skip updates for recently interacted params for 500ms
     if (param === lastDraggedParam && Date.now() - lastDragEndTime < 500) return;
+    if (param === lastClickedParam && Date.now() - lastClickTime < 500) return;
 
+    // Handle knobs
     var knob = document.getElementById('knob-' + param);
     if (knob) {
         updateKnob(knob, value);
+        return;
+    }
+
+    // Handle wave buttons
+    if (param.indexOf('_wave') !== -1 && param !== 'sub_wave') {
+        setWaveByValue(param, Math.round(value));
+        return;
+    }
+
+    // Handle dropdowns (sub_wave, sub_octave, noise_type, reverb_type, oversampling)
+    var sel = document.getElementById(param);
+    if (sel && sel.tagName === 'SELECT') {
+        sel.value = Math.round(value);
     }
 };
 
