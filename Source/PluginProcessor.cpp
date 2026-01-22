@@ -282,7 +282,19 @@ void PluginProcessor::updateOversampling(int factor)
 void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
-    juce::ignoreUnused(midiMessages);
+
+    // Check for MIDI activity
+    if (!midiMessages.isEmpty())
+    {
+        for (const auto metadata : midiMessages)
+        {
+            if (metadata.getMessage().isNoteOn())
+            {
+                midiActivity.store(true);
+                break;
+            }
+        }
+    }
 
     for (auto i = getTotalNumInputChannels(); i < getTotalNumOutputChannels(); ++i)
         buffer.clear(i, 0, buffer.getNumSamples());
@@ -383,6 +395,30 @@ void PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiB
                 waveformReady.store(true);
         }
     }
+
+    // Calculate output levels for metering
+    float peakL = 0.0f, peakR = 0.0f;
+    if (buffer.getNumChannels() >= 2)
+    {
+        auto* leftData = buffer.getReadPointer(0);
+        auto* rightData = buffer.getReadPointer(1);
+        for (int i = 0; i < buffer.getNumSamples(); ++i)
+        {
+            peakL = juce::jmax(peakL, std::abs(leftData[i]));
+            peakR = juce::jmax(peakR, std::abs(rightData[i]));
+        }
+    }
+    else if (buffer.getNumChannels() >= 1)
+    {
+        auto* data = buffer.getReadPointer(0);
+        for (int i = 0; i < buffer.getNumSamples(); ++i)
+        {
+            peakL = juce::jmax(peakL, std::abs(data[i]));
+        }
+        peakR = peakL;
+    }
+    outputLevelL.store(peakL);
+    outputLevelR.store(peakR);
 }
 
 juce::AudioProcessorEditor* PluginProcessor::createEditor()

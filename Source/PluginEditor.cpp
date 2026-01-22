@@ -70,6 +70,25 @@ void PluginEditor::timerCallback()
     {
         sendWaveformToWebView();
     }
+
+    // Send level meter data
+    float levelL = processor.getOutputLevelL();
+    float levelR = processor.getOutputLevelR();
+    juce::String meterJs = "if(window.updateMeterLevels){window.updateMeterLevels("
+        + juce::String(levelL, 3) + "," + juce::String(levelR, 3) + ");}";
+    webView.evaluateJavascript(meterJs, nullptr);
+
+    // Send MIDI activity
+    if (processor.getMidiActivity())
+    {
+        webView.evaluateJavascript("if(window.midiActivity){window.midiActivity();}", nullptr);
+    }
+
+    // Send voice count
+    int voices = processor.getActiveVoiceCount();
+    juce::String voiceJs = "if(window.updateVoiceCount){window.updateVoiceCount("
+        + juce::String(voices) + "," + juce::String(PluginProcessor::maxVoices) + ");}";
+    webView.evaluateJavascript(voiceJs, nullptr);
 }
 
 std::optional<juce::WebBrowserComponent::Resource> PluginEditor::getResource(const juce::String& url)

@@ -6,7 +6,6 @@ Builds/**/Release/
 build/
 *.obj
 *.o
-*.exe
 *.pdb
 *.iobj
 *.ipdb
@@ -14,10 +13,13 @@ build/
 *.res
 *.log
 *.tlog/
-*.vst3
-*.dll
 *.lib
 *.exp
+
+# Allow release binaries in Schoff_FM Modern
+!Schoff_FM Modern/*.exe
+!Schoff_FM Modern/*.dll
+!Schoff_FM Modern/*.vst3
 
 # WebView2 cache
 *.WebView2/

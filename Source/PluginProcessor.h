@@ -56,6 +56,21 @@ public:
 
     bool isWaveformReady() const { return waveformReady.load(); }
 
+    // Level metering
+    std::atomic<float> outputLevelL { 0.0f };
+    std::atomic<float> outputLevelR { 0.0f };
+    float getOutputLevelL() const { return outputLevelL.load(); }
+    float getOutputLevelR() const { return outputLevelR.load(); }
+
+    // MIDI activity
+    std::atomic<bool> midiActivity { false };
+    bool getMidiActivity() { return midiActivity.exchange(false); }
+
+    // Voice count (placeholder - will be updated when voice management is implemented)
+    std::atomic<int> activeVoiceCount { 0 };
+    int getActiveVoiceCount() const { return activeVoiceCount.load(); }
+    static constexpr int maxVoices = 8;
+
 private:
     juce::AudioProcessorValueTreeState apvts;
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();

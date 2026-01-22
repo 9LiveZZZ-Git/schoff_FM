@@ -1011,6 +1011,132 @@
         font-family: 'Share Tech Mono', monospace;
         opacity: 0.6;
     }
+
+    /* =================================================================
+       ENHANCED PANEL DEPTH
+       ================================================================= */
+    .panel {
+        box-shadow:
+            inset 1px 1px 0 rgba(255,255,255,0.05),
+            inset -1px -1px 0 rgba(0,0,0,0.2),
+            0 4px 12px rgba(0,0,0,0.3);
+    }
+    .panel:hover {
+        box-shadow:
+            inset 1px 1px 0 rgba(255,255,255,0.08),
+            inset -1px -1px 0 rgba(0,0,0,0.2),
+            0 6px 16px rgba(0,0,0,0.4);
+    }
+
+    /* =================================================================
+       LOGO HOVER EFFECT
+       ================================================================= */
+    .logo {
+        cursor: default;
+        transition: all 0.3s ease;
+    }
+    .logo:hover {
+        letter-spacing: 5px;
+        text-shadow: 0 0 20px var(--glow), 0 0 40px var(--glow);
+    }
+
+    /* =================================================================
+       BUTTON MICRO-INTERACTIONS
+       ================================================================= */
+    .wave-btn {
+        transform: translateY(0);
+        transition: all 0.1s ease;
+    }
+    .wave-btn:hover {
+        transform: translateY(-1px);
+    }
+    .wave-btn:active {
+        transform: translateY(1px);
+    }
+    .wave-btn-active {
+        transform: translateY(0);
+    }
+
+    .theme-btn {
+        transform: scale(1);
+        transition: all 0.15s ease;
+    }
+    .theme-btn:hover {
+        transform: scale(1.05);
+    }
+    .theme-btn:active {
+        transform: scale(0.95);
+    }
+
+    /* =================================================================
+       KNOB ACTIVE STATE
+       ================================================================= */
+    .knob-mid.dragging {
+        box-shadow: 0 0 20px var(--glow), inset 0 0 10px rgba(0,0,0,0.3);
+        transform: scale(1.05);
+    }
+    .knob-mid {
+        transform: scale(1);
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+    }
+
+    /* =================================================================
+       OSCILLOSCOPE GLOW BORDER
+       ================================================================= */
+    .scope-container {
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 0 1px var(--accent);
+        transition: box-shadow 0.3s ease;
+    }
+    .scope-container:hover {
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 0 8px var(--glow);
+    }
+
+    /* =================================================================
+       FOOTER STATUS GLOW
+       ================================================================= */
+    .footer {
+        position: relative;
+        overflow: hidden;
+    }
+    .footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        opacity: 0.5;
+    }
+
+    /* =================================================================
+       HEADER GRADIENT
+       ================================================================= */
+    .header {
+        background: linear-gradient(180deg, var(--bg-main) 0%, var(--bg-panel) 100%);
+    }
+
+    /* =================================================================
+       SELECT FOCUS RING
+       ================================================================= */
+    .styled-select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px var(--glow);
+    }
+
+    /* =================================================================
+       BADGE HOVER
+       ================================================================= */
+    .badge {
+        transition: all 0.2s ease;
+        cursor: default;
+    }
+    .badge:hover {
+        background: var(--accent);
+        color: var(--bg-void);
+        border-color: var(--accent);
+    }
 </style>
 
 </head>
@@ -1651,14 +1777,24 @@ document.onmousemove = function(e) {
 };
 
 document.onmouseup = function() {
+    if (dragging) {
+        dragging.classList.remove('dragging');
+    }
     dragging = null;
 };
 
-// JUCE callback
+// JUCE callback - only update if value actually changed (prevents reset during drag)
 window.updateParameter = function(param, value) {
+    // Don't update while user is dragging
+    if (dragging) return;
+
     var knob = document.getElementById('knob-' + param);
     if (knob) {
-        updateKnob(knob, value);
+        // Only update if value changed significantly (avoids floating point noise)
+        var currentVal = params[param];
+        if (currentVal === undefined || Math.abs(currentVal - value) > 0.0001) {
+            updateKnob(knob, value);
+        }
     }
 };
 
