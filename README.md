@@ -118,4 +118,4 @@ Copyright 2025 9LiveZZZ
 
 ## Credits
 
-Built with [JUCE](https://juce.com/) framework.
+Built with [Faust](https://faust.grame.fr/) and [JUCE](https://juce.com/) frameworks.
