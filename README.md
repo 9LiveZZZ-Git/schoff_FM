@@ -81,8 +81,15 @@ After building, the plugin files will be in:
 - **Standalone**: `build/schoff_FM_artefacts/Release/Standalone/schoff_FM.exe`
 - **VST3**: `build/schoff_FM_artefacts/Release/VST3/schoff_FM.vst3/`
 
-### 5. Running the Standalone
-Copy `faceplate.html` from `Resources/` or `Schoff_FM Modern/` to the same folder as the executable, or it will use the embedded version.
+### 5. Copy Runtime Dependencies
+Copy `WebView2Loader.dll` from the WebView2 SDK to the output folder:
+```powershell
+copy ThirdParty\WebView2\build\native\x64\WebView2Loader.dll build\schoff_FM_artefacts\Release\Standalone\
+copy ThirdParty\WebView2\build\native\x64\WebView2Loader.dll build\schoff_FM_artefacts\Release\VST3\schoff_FM.vst3\Contents\x86_64-win\
+```
+
+### 6. Running the Standalone
+The standalone exe uses the embedded faceplate.html by default. You can also place `faceplate.html` next to the executable to override.
 
 ## Pre-built Binaries
 
