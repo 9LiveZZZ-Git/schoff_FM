@@ -1,0 +1,30 @@
+# Build outputs
+Builds/*/x64/
+Builds/*/x86/
+Builds/**/Debug/
+Builds/**/Release/
+*.obj
+*.o
+*.exe
+*.pdb
+*.iobj
+*.ipdb
+*.ilk
+*.res
+*.log
+*.tlog/
+
+# IDE files
+.vs/
+*.user
+*.suo
+
+# Claude settings
+.claude/
+
+# macOS
+.DS_Store
+
+# Gradle
+.gradle/
+local.properties

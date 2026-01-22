@@ -1,0 +1,2 @@
+rootProject.name = 'schoff_FM'
+include ':app'

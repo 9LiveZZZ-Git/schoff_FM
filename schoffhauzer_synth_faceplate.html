@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Schoffhauzer FM</title>
+    <style>
+        body { margin: 0; padding: 12px; font-family: Tahoma, Arial, sans-serif; font-size: 11px; }
+        table { border-collapse: collapse; }
+
+        /* Panel Styles */
+        .panel {
+            background: #1e1e28;
+            border: 1px solid #3a3a4a;
+            border-top-color: #4a4a5a;
+            border-left-color: #4a4a5a;
+            padding: 10px;
+            margin: 3px;
+        }
+        .panel-title {
+            color: #00f5a0;
+            font-weight: bold;
+            font-size: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #2a2a3a;
+        }
+
+        /* Knob Styles - 3D effect */
+        .knob-wrap { text-align: center; padding: 6px; width: 54px; }
+        .knob-label { color: #888; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+
+        .knob-outer {
+            width: 42px;
+            height: 42px;
+            margin: 0 auto 4px auto;
+            background: #0a0a0f;
+            border: 2px solid #2a2a3a;
+            border-radius: 50%;
+            padding: 3px;
+        }
+        .knob-mid {
+            width: 36px;
+            height: 36px;
+            background: #18181f;
+            border: 1px solid #333;
+            border-top-color: #444;
+            border-left-color: #444;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+        }
+        .knob-inner {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 22px;
+            height: 22px;
+            background: #252530;
+            border: 1px solid #1a1a22;
+            border-top-color: #3a3a4a;
+            border-left-color: #3a3a4a;
+            border-radius: 50%;
+        }
+        .knob-dot {
+            width: 6px;
+            height: 6px;
+            background: #00f5a0;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .knob-line {
+            position: absolute;
+            width: 2px;
+            height: 8px;
+            background: #00f5a0;
+            top: 3px;
+            left: 17px;
+        }
+        .knob-val { color: #00f5a0; font-size: 10px; font-family: Consolas, Courier, monospace; }
+
+        /* Wave Buttons */
+        .wave-btn {
+            display: block;
+            width: 100%;
+            padding: 5px 10px;
+            margin: 2px 0;
+            background: #252530;
+            border: 1px solid #3a3a4a;
+            border-top-color: #4a4a5a;
+            border-left-color: #4a4a5a;
+            color: #777;
+            font-size: 10px;
+            cursor: pointer;
+            text-align: left;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+        .wave-btn-active {
+            background: #00f5a0;
+            color: #000;
+            border-color: #00f5a0;
+            font-weight: bold;
+        }
+
+        /* Theme Buttons */
+        .theme-btn {
+            padding: 5px 12px;
+            margin: 0 3px;
+            border: 1px solid #3a3a4a;
+            border-top-color: #4a4a5a;
+            border-left-color: #4a4a5a;
+            background: #252530;
+            color: #777;
+            font-size: 10px;
+            cursor: pointer;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+        .theme-btn-active {
+            background: #00f5a0;
+            color: #000;
+            border-color: #00f5a0;
+            font-weight: bold;
+        }
+
+        /* Select - Custom styled dropdown */
+        .select-wrap {
+            position: relative;
+            display: inline-block;
+        }
+        .styled-select {
+            background: #252530;
+            border: 1px solid #3a3a4a;
+            border-top-color: #1a1a22;
+            border-left-color: #1a1a22;
+            color: #ccc;
+            padding: 6px 22px 6px 8px;
+            font-size: 10px;
+            width: 78px;
+            font-family: Tahoma, Arial, sans-serif;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+        .styled-select:hover {
+            border-color: #00f5a0;
+            background: #2a2a38;
+        }
+        .styled-select:focus {
+            outline: none;
+            border-color: #00f5a0;
+        }
+        .select-arrow {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            margin-top: -3px;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 6px solid #00f5a0;
+            pointer-events: none;
+        }
+
+        /* Header */
+        .header { padding: 12px 16px; }
+        .logo { font-size: 20px; font-weight: bold; letter-spacing: 3px; }
+        .subtitle { font-size: 10px; letter-spacing: 1px; margin-top: 3px; color: #666; }
+
+        /* Footer */
+        .footer { padding: 8px 16px; font-size: 9px; }
+        .led {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+            border: 1px solid #006644;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            margin-left: 6px;
+            background: #252530;
+            border: 1px solid #3a3a4a;
+            font-size: 9px;
+        }
+
+        /* FX Section */
+        .fx-title { color: #00d4aa; font-size: 10px; font-weight: bold; margin-bottom: 8px; letter-spacing: 1px; }
+
+        /* Section labels */
+        .section-label { color: #7c3aed; font-size: 9px; font-weight: bold; margin-bottom: 6px; letter-spacing: 1px; }
+
+        /* Oscilloscope */
+        .scope-container {
+            background: #0a0a0f;
+            border: 1px solid #2a2a3a;
+            height: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+        .scope-line-h {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #1a1a2a;
+        }
+        .scope-line-center {
+            background: #2a2a4a;
+        }
+        .scope-title {
+            color: #00f5a0;
+            font-size: 9px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body id="body" style="background: #0c0c12; color: #e0e0e0;">
+    <table width="920" cellpadding="0" cellspacing="0" align="center" style="background: #14141c; border: 2px solid #2a2a3a;">
+        <!-- Header -->
+        <tr>
+            <td colspan="4" class="header" style="background: #101018; border-bottom: 2px solid #2a2a3a;">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>
+                            <span class="logo" id="logo" style="color: #00f5a0;">SCHOFFHAUZER</span>
+                            <span style="color: #555; font-size: 16px; font-weight: normal;"> FM</span>
+                            <div class="subtitle">Quasi-Bandlimited FM Synthesizer</div>
+                        </td>
+                        <td align="right" valign="middle">
+                            <button class="theme-btn theme-btn-active" id="theme-celestial" onclick="setTheme('celestial')">Celestial</button>
+                            <button class="theme-btn" id="theme-heaven" onclick="setTheme('heaven')">Heaven</button>
+                            <button class="theme-btn" id="theme-hell" onclick="setTheme('hell')">Hell</button>
+                            <button class="theme-btn" id="theme-death" onclick="setTheme('death')">Death</button>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <!-- OSC 1 & OSC 2 -->
+        <tr>
+            <td width="50%" valign="top">
+                <div class="panel">
+                    <div class="panel-title" id="osc1-title">OSCILLATOR 1</div>
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td valign="top" style="padding-right: 12px;">
+                                <div id="osc1-waves">
+                                    <button class="wave-btn wave-btn-active" onclick="setWave('osc1_wave', 0, this)">&#9654; Saw</button>
+                                    <button class="wave-btn" onclick="setWave('osc1_wave', 1, this)">&#9654; Saw+</button>
+                                    <button class="wave-btn" onclick="setWave('osc1_wave', 2, this)">&#9650; Tri</button>
+                                    <button class="wave-btn" onclick="setWave('osc1_wave', 3, this)">&#9650; Tri+</button>
+                                    <button class="wave-btn" onclick="setWave('osc1_wave', 4, this)">&#9632; Sqr</button>
+                                    <button class="wave-btn" onclick="setWave('osc1_wave', 5, this)">&#9644; Pulse</button>
+                                    <button class="wave-btn" onclick="setWave('osc1_wave', 6, this)">&#9679; Sine</button>
+                                </div>
+                            </td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td class="knob-wrap"><div class="knob-label">Oct</div><div class="knob-outer"><div class="knob-mid" id="knob-osc1_octave" data-p="osc1_octave" data-min="-3" data-max="3" data-val="0" data-step="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc1_octave"></div></div></div><div class="knob-val" id="val-osc1_octave">0</div></td>
+                                        <td class="knob-wrap"><div class="knob-label">Semi</div><div class="knob-outer"><div class="knob-mid" id="knob-osc1_semi" data-p="osc1_semi" data-min="-12" data-max="12" data-val="0" data-step="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc1_semi"></div></div></div><div class="knob-val" id="val-osc1_semi">0</div></td>
+                                        <td class="knob-wrap"><div class="knob-label">Fine</div><div class="knob-outer"><div class="knob-mid" id="knob-osc1_fine" data-p="osc1_fine" data-min="-100" data-max="100" data-val="0" data-step="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc1_fine"></div></div></div><div class="knob-val" id="val-osc1_fine">0</div></td>
+                                        <td class="knob-wrap"><div class="knob-label">PW</div><div class="knob-outer"><div class="knob-mid" id="knob-osc1_pw" data-p="osc1_pw" data-min="0.05" data-max="0.95" data-val="0.5" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc1_pw"></div></div></div><div class="knob-val" id="val-osc1_pw">50%</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="knob-wrap"><div class="knob-label">Level</div><div class="knob-outer"><div class="knob-mid" id="knob-osc1_gain" data-p="osc1_gain" data-min="0" data-max="1" data-val="0.7" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc1_gain"></div></div></div><div class="knob-val" id="val-osc1_gain">70%</div></td>
+                                        <td class="knob-wrap"><div class="knob-label">Pan</div><div class="knob-outer"><div class="knob-mid" id="knob-osc1_pan" data-p="osc1_pan" data-min="-1" data-max="1" data-val="0" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc1_pan"></div></div></div><div class="knob-val" id="val-osc1_pan">C</div></td>
+                                        <td class="knob-wrap"><div class="knob-label">Stereo</div><div class="knob-outer"><div class="knob-mid" id="knob-osc1_stereo" data-p="osc1_stereo" data-min="0" data-max="90" data-val="0" data-step="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc1_stereo"></div></div></div><div class="knob-val" id="val-osc1_stereo">0</div></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td width="50%" valign="top">
+                <div class="panel">
+                    <div class="panel-title" id="osc2-title">OSCILLATOR 2</div>
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td valign="top" style="padding-right: 12px;">
+                                <div id="osc2-waves">
+                                    <button class="wave-btn wave-btn-active" onclick="setWave('osc2_wave', 0, this)">&#9654; Saw</button>
+                                    <button class="wave-btn" onclick="setWave('osc2_wave', 1, this)">&#9654; Saw+</button>
+                                    <button class="wave-btn" onclick="setWave('osc2_wave', 2, this)">&#9650; Tri</button>
+                                    <button class="wave-btn" onclick="setWave('osc2_wave', 3, this)">&#9650; Tri+</button>
+                                    <button class="wave-btn" onclick="setWave('osc2_wave', 4, this)">&#9632; Sqr</button>
+                                    <button class="wave-btn" onclick="setWave('osc2_wave', 5, this)">&#9644; Pulse</button>
+                                    <button class="wave-btn" onclick="setWave('osc2_wave', 6, this)">&#9679; Sine</button>
+                                </div>
+                            </td>
+                            <td>
+                                <table cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td class="knob-wrap"><div class="knob-label">Oct</div><div class="knob-outer"><div class="knob-mid" id="knob-osc2_octave" data-p="osc2_octave" data-min="-3" data-max="3" data-val="0" data-step="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc2_octave"></div></div></div><div class="knob-val" id="val-osc2_octave">0</div></td>
+                                        <td class="knob-wrap"><div class="knob-label">Semi</div><div class="knob-outer"><div class="knob-mid" id="knob-osc2_semi" data-p="osc2_semi" data-min="-12" data-max="12" data-val="0" data-step="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc2_semi"></div></div></div><div class="knob-val" id="val-osc2_semi">0</div></td>
+                                        <td class="knob-wrap"><div class="knob-label">Fine</div><div class="knob-outer"><div class="knob-mid" id="knob-osc2_fine" data-p="osc2_fine" data-min="-100" data-max="100" data-val="0" data-step="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc2_fine"></div></div></div><div class="knob-val" id="val-osc2_fine">0</div></td>
+                                        <td class="knob-wrap"><div class="knob-label">PW</div><div class="knob-outer"><div class="knob-mid" id="knob-osc2_pw" data-p="osc2_pw" data-min="0.05" data-max="0.95" data-val="0.5" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc2_pw"></div></div></div><div class="knob-val" id="val-osc2_pw">50%</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="knob-wrap"><div class="knob-label">Level</div><div class="knob-outer"><div class="knob-mid" id="knob-osc2_gain" data-p="osc2_gain" data-min="0" data-max="1" data-val="0.7" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc2_gain"></div></div></div><div class="knob-val" id="val-osc2_gain">70%</div></td>
+                                        <td class="knob-wrap"><div class="knob-label">Pan</div><div class="knob-outer"><div class="knob-mid" id="knob-osc2_pan" data-p="osc2_pan" data-min="-1" data-max="1" data-val="0" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc2_pan"></div></div></div><div class="knob-val" id="val-osc2_pan">C</div></td>
+                                        <td class="knob-wrap"><div class="knob-label">Stereo</div><div class="knob-outer"><div class="knob-mid" id="knob-osc2_stereo" data-p="osc2_stereo" data-min="0" data-max="90" data-val="0" data-step="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-osc2_stereo"></div></div></div><div class="knob-val" id="val-osc2_stereo">0</div></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+
+        <!-- SUB/NOISE & FILTER -->
+        <tr>
+            <td valign="top">
+                <div class="panel">
+                    <div class="panel-title" id="sub-title">SUB / NOISE</div>
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td valign="top" style="padding-right: 16px;">
+                                <div class="section-label">SUB</div>
+                                <table cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td style="padding-right: 10px;">
+                                            <div style="font-size: 9px; color: #666; margin-bottom: 3px;">Wave</div>
+                                            <div class="select-wrap">
+                                                <select class="styled-select" id="sub_wave" onchange="sendParam('sub_wave', this.value)">
+                                                    <option value="0">Sine</option>
+                                                    <option value="1">Square</option>
+                                                    <option value="2">Saw</option>
+                                                    <option value="3">Tri</option>
+                                                </select>
+                                                <div class="select-arrow"></div>
+                                            </div>
+                                        </td>
+                                        <td style="padding-right: 10px;">
+                                            <div style="font-size: 9px; color: #666; margin-bottom: 3px;">Oct</div>
+                                            <div class="select-wrap">
+                                                <select class="styled-select" style="width: 56px;" id="sub_octave" onchange="sendParam('sub_octave', this.value)">
+                                                    <option value="0">-2</option>
+                                                    <option value="1" selected>-1</option>
+                                                </select>
+                                                <div class="select-arrow"></div>
+                                            </div>
+                                        </td>
+                                        <td class="knob-wrap"><div class="knob-label">Level</div><div class="knob-outer"><div class="knob-mid" id="knob-sub_level" data-p="sub_level" data-min="0" data-max="1" data-val="0" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-sub_level"></div></div></div><div class="knob-val" id="val-sub_level">0%</div></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td valign="top" style="border-left: 1px solid #2a2a3a; padding-left: 16px;">
+                                <div class="section-label" style="color: #00d4aa;">NOISE</div>
+                                <table cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td style="padding-right: 10px;">
+                                            <div style="font-size: 9px; color: #666; margin-bottom: 3px;">Type</div>
+                                            <div class="select-wrap">
+                                                <select class="styled-select" id="noise_type" onchange="sendParam('noise_type', this.value)">
+                                                    <option value="0">White</option>
+                                                    <option value="1">Pink</option>
+                                                    <option value="2">Brown</option>
+                                                </select>
+                                                <div class="select-arrow"></div>
+                                            </div>
+                                        </td>
+                                        <td class="knob-wrap"><div class="knob-label">Level</div><div class="knob-outer"><div class="knob-mid" id="knob-noise_level" data-p="noise_level" data-min="0" data-max="0.5" data-val="0" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-noise_level"></div></div></div><div class="knob-val" id="val-noise_level">0%</div></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td valign="top">
+                <div class="panel">
+                    <div class="panel-title" id="filter-title">FILTER</div>
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="knob-wrap"><div class="knob-label">Cutoff</div><div class="knob-outer"><div class="knob-mid" id="knob-filter_cutoff" data-p="filter_cutoff" data-min="20" data-max="20000" data-val="8000" data-step="1" data-log="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-filter_cutoff"></div></div></div><div class="knob-val" id="val-filter_cutoff">8.0k</div></td>
+                            <td class="knob-wrap"><div class="knob-label">Reso</div><div class="knob-outer"><div class="knob-mid" id="knob-filter_reso" data-p="filter_reso" data-min="0.5" data-max="10" data-val="1" data-step="0.1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-filter_reso"></div></div></div><div class="knob-val" id="val-filter_reso">1.0</div></td>
+                            <td class="knob-wrap"><div class="knob-label">Env</div><div class="knob-outer"><div class="knob-mid" id="knob-filter_env" data-p="filter_env" data-min="-1" data-max="1" data-val="0.3" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-filter_env"></div></div></div><div class="knob-val" id="val-filter_env">30%</div></td>
+                            <td class="knob-wrap"><div class="knob-label">Key</div><div class="knob-outer"><div class="knob-mid" id="knob-filter_key" data-p="filter_key" data-min="0" data-max="1" data-val="0" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-filter_key"></div></div></div><div class="knob-val" id="val-filter_key">0%</div></td>
+                            <td class="knob-wrap"><div class="knob-label">Drive</div><div class="knob-outer"><div class="knob-mid" id="knob-filter_drive" data-p="filter_drive" data-min="1" data-max="4" data-val="1" data-step="0.1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-filter_drive"></div></div></div><div class="knob-val" id="val-filter_drive">1.0</div></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+
+        <!-- ENVELOPES -->
+        <tr>
+            <td valign="top">
+                <div class="panel">
+                    <div class="panel-title" id="amp-title">AMP ENVELOPE</div>
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="knob-wrap"><div class="knob-label">Attack</div><div class="knob-outer"><div class="knob-mid" id="knob-amp_a" data-p="amp_a" data-min="0.001" data-max="4" data-val="0.01" data-step="0.001" data-log="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-amp_a"></div></div></div><div class="knob-val" id="val-amp_a">10ms</div></td>
+                            <td class="knob-wrap"><div class="knob-label">Decay</div><div class="knob-outer"><div class="knob-mid" id="knob-amp_d" data-p="amp_d" data-min="0.001" data-max="4" data-val="0.2" data-step="0.001" data-log="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-amp_d"></div></div></div><div class="knob-val" id="val-amp_d">200ms</div></td>
+                            <td class="knob-wrap"><div class="knob-label">Sustain</div><div class="knob-outer"><div class="knob-mid" id="knob-amp_s" data-p="amp_s" data-min="0" data-max="1" data-val="0.7" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-amp_s"></div></div></div><div class="knob-val" id="val-amp_s">70%</div></td>
+                            <td class="knob-wrap"><div class="knob-label">Release</div><div class="knob-outer"><div class="knob-mid" id="knob-amp_r" data-p="amp_r" data-min="0.001" data-max="8" data-val="0.3" data-step="0.001" data-log="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-amp_r"></div></div></div><div class="knob-val" id="val-amp_r">300ms</div></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td valign="top">
+                <div class="panel">
+                    <div class="panel-title" id="flt-title">FILTER ENVELOPE</div>
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="knob-wrap"><div class="knob-label">Attack</div><div class="knob-outer"><div class="knob-mid" id="knob-flt_a" data-p="flt_a" data-min="0.001" data-max="4" data-val="0.01" data-step="0.001" data-log="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-flt_a"></div></div></div><div class="knob-val" id="val-flt_a">10ms</div></td>
+                            <td class="knob-wrap"><div class="knob-label">Decay</div><div class="knob-outer"><div class="knob-mid" id="knob-flt_d" data-p="flt_d" data-min="0.001" data-max="4" data-val="0.3" data-step="0.001" data-log="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-flt_d"></div></div></div><div class="knob-val" id="val-flt_d">300ms</div></td>
+                            <td class="knob-wrap"><div class="knob-label">Sustain</div><div class="knob-outer"><div class="knob-mid" id="knob-flt_s" data-p="flt_s" data-min="0" data-max="1" data-val="0.3" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-flt_s"></div></div></div><div class="knob-val" id="val-flt_s">30%</div></td>
+                            <td class="knob-wrap"><div class="knob-label">Release</div><div class="knob-outer"><div class="knob-mid" id="knob-flt_r" data-p="flt_r" data-min="0.001" data-max="8" data-val="0.5" data-step="0.001" data-log="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-flt_r"></div></div></div><div class="knob-val" id="val-flt_r">500ms</div></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+
+        <!-- EFFECTS -->
+        <tr>
+            <td colspan="2">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="25%" valign="top">
+                            <div class="panel">
+                                <div class="fx-title">EXCITER</div>
+                                <table cellpadding="0" cellspacing="0"><tr>
+                                    <td class="knob-wrap"><div class="knob-label">Freq</div><div class="knob-outer"><div class="knob-mid" id="knob-exciter_freq" data-p="exciter_freq" data-min="500" data-max="12000" data-val="3000" data-step="1" data-log="1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-exciter_freq"></div></div></div><div class="knob-val" id="val-exciter_freq">3.0k</div></td>
+                                    <td class="knob-wrap"><div class="knob-label">Drive</div><div class="knob-outer"><div class="knob-mid" id="knob-exciter_drive" data-p="exciter_drive" data-min="0" data-max="1" data-val="0.5" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-exciter_drive"></div></div></div><div class="knob-val" id="val-exciter_drive">50%</div></td>
+                                    <td class="knob-wrap"><div class="knob-label">Mix</div><div class="knob-outer"><div class="knob-mid" id="knob-exciter_mix" data-p="exciter_mix" data-min="0" data-max="1" data-val="0" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-exciter_mix"></div></div></div><div class="knob-val" id="val-exciter_mix">0%</div></td>
+                                </tr></table>
+                            </div>
+                        </td>
+                        <td width="25%" valign="top">
+                            <div class="panel">
+                                <div class="fx-title">CHORUS</div>
+                                <table cellpadding="0" cellspacing="0"><tr>
+                                    <td class="knob-wrap"><div class="knob-label">Rate</div><div class="knob-outer"><div class="knob-mid" id="knob-chorus_rate" data-p="chorus_rate" data-min="0.1" data-max="4" data-val="0.8" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-chorus_rate"></div></div></div><div class="knob-val" id="val-chorus_rate">0.80</div></td>
+                                    <td class="knob-wrap"><div class="knob-label">Depth</div><div class="knob-outer"><div class="knob-mid" id="knob-chorus_depth" data-p="chorus_depth" data-min="0" data-max="1" data-val="0.5" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-chorus_depth"></div></div></div><div class="knob-val" id="val-chorus_depth">50%</div></td>
+                                    <td class="knob-wrap"><div class="knob-label">Wet</div><div class="knob-outer"><div class="knob-mid" id="knob-chorus_wet" data-p="chorus_wet" data-min="0" data-max="1" data-val="0" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-chorus_wet"></div></div></div><div class="knob-val" id="val-chorus_wet">0%</div></td>
+                                </tr></table>
+                            </div>
+                        </td>
+                        <td width="25%" valign="top">
+                            <div class="panel">
+                                <div class="fx-title">DELAY</div>
+                                <table cellpadding="0" cellspacing="0"><tr>
+                                    <td class="knob-wrap"><div class="knob-label">Time</div><div class="knob-outer"><div class="knob-mid" id="knob-delay_time" data-p="delay_time" data-min="0.01" data-max="1" data-val="0.375" data-step="0.001" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-delay_time"></div></div></div><div class="knob-val" id="val-delay_time">375ms</div></td>
+                                    <td class="knob-wrap"><div class="knob-label">Fdbk</div><div class="knob-outer"><div class="knob-mid" id="knob-delay_fdbk" data-p="delay_fdbk" data-min="0" data-max="0.85" data-val="0.4" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-delay_fdbk"></div></div></div><div class="knob-val" id="val-delay_fdbk">40%</div></td>
+                                    <td class="knob-wrap"><div class="knob-label">Wet</div><div class="knob-outer"><div class="knob-mid" id="knob-delay_wet" data-p="delay_wet" data-min="0" data-max="1" data-val="0" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-delay_wet"></div></div></div><div class="knob-val" id="val-delay_wet">0%</div></td>
+                                </tr></table>
+                            </div>
+                        </td>
+                        <td width="25%" valign="top">
+                            <div class="panel">
+                                <div class="fx-title">REVERB</div>
+                                <table cellpadding="0" cellspacing="0"><tr>
+                                    <td style="padding-right: 6px; vertical-align: top;">
+                                        <div style="font-size: 9px; color: #666; margin-bottom: 3px;">Type</div>
+                                        <div class="select-wrap">
+                                            <select class="styled-select" style="width: 72px;" id="reverb_type" onchange="sendParam('reverb_type', this.value)">
+                                                <option value="0">Freeverb</option>
+                                                <option value="1">Zita</option>
+                                                <option value="2">Dattorro</option>
+                                                <option value="3">JPverb</option>
+                                                <option value="4">Greyhole</option>
+                                            </select>
+                                            <div class="select-arrow"></div>
+                                        </div>
+                                    </td>
+                                    <td class="knob-wrap"><div class="knob-label">Size</div><div class="knob-outer"><div class="knob-mid" id="knob-reverb_size" data-p="reverb_size" data-min="0.1" data-max="0.95" data-val="0.6" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-reverb_size"></div></div></div><div class="knob-val" id="val-reverb_size">60%</div></td>
+                                    <td class="knob-wrap"><div class="knob-label">Wet</div><div class="knob-outer"><div class="knob-mid" id="knob-reverb_wet" data-p="reverb_wet" data-min="0" data-max="1" data-val="0" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-reverb_wet"></div></div></div><div class="knob-val" id="val-reverb_wet">0%</div></td>
+                                </tr></table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <!-- OSCILLOSCOPE & MASTER -->
+        <tr>
+            <td colspan="2">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="70%" valign="top">
+                            <div class="panel">
+                                <div class="scope-title" id="scope-title">OSCILLOSCOPE</div>
+                                <div class="scope-container" id="scope">
+                                    <div class="scope-line-h" style="top: 0;"></div>
+                                    <div class="scope-line-h" style="top: 17px;"></div>
+                                    <div class="scope-line-h scope-line-center" style="top: 35px;"></div>
+                                    <div class="scope-line-h" style="top: 52px;"></div>
+                                    <div class="scope-line-h" style="top: 69px;"></div>
+                                    <div id="sb0" style="position:absolute;bottom:35px;left:4px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb1" style="position:absolute;bottom:35px;left:13px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb2" style="position:absolute;bottom:35px;left:22px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb3" style="position:absolute;bottom:35px;left:31px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb4" style="position:absolute;bottom:35px;left:40px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb5" style="position:absolute;bottom:35px;left:49px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb6" style="position:absolute;bottom:35px;left:58px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb7" style="position:absolute;bottom:35px;left:67px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb8" style="position:absolute;bottom:35px;left:76px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb9" style="position:absolute;bottom:35px;left:85px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb10" style="position:absolute;bottom:35px;left:94px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb11" style="position:absolute;bottom:35px;left:103px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb12" style="position:absolute;bottom:35px;left:112px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb13" style="position:absolute;bottom:35px;left:121px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb14" style="position:absolute;bottom:35px;left:130px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb15" style="position:absolute;bottom:35px;left:139px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb16" style="position:absolute;bottom:35px;left:148px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb17" style="position:absolute;bottom:35px;left:157px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb18" style="position:absolute;bottom:35px;left:166px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb19" style="position:absolute;bottom:35px;left:175px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb20" style="position:absolute;bottom:35px;left:184px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb21" style="position:absolute;bottom:35px;left:193px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb22" style="position:absolute;bottom:35px;left:202px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb23" style="position:absolute;bottom:35px;left:211px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb24" style="position:absolute;bottom:35px;left:220px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb25" style="position:absolute;bottom:35px;left:229px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb26" style="position:absolute;bottom:35px;left:238px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb27" style="position:absolute;bottom:35px;left:247px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb28" style="position:absolute;bottom:35px;left:256px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb29" style="position:absolute;bottom:35px;left:265px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb30" style="position:absolute;bottom:35px;left:274px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb31" style="position:absolute;bottom:35px;left:283px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb32" style="position:absolute;bottom:35px;left:292px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb33" style="position:absolute;bottom:35px;left:301px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb34" style="position:absolute;bottom:35px;left:310px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb35" style="position:absolute;bottom:35px;left:319px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb36" style="position:absolute;bottom:35px;left:328px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb37" style="position:absolute;bottom:35px;left:337px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb38" style="position:absolute;bottom:35px;left:346px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb39" style="position:absolute;bottom:35px;left:355px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb40" style="position:absolute;bottom:35px;left:364px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb41" style="position:absolute;bottom:35px;left:373px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb42" style="position:absolute;bottom:35px;left:382px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb43" style="position:absolute;bottom:35px;left:391px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb44" style="position:absolute;bottom:35px;left:400px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb45" style="position:absolute;bottom:35px;left:409px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb46" style="position:absolute;bottom:35px;left:418px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb47" style="position:absolute;bottom:35px;left:427px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb48" style="position:absolute;bottom:35px;left:436px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb49" style="position:absolute;bottom:35px;left:445px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb50" style="position:absolute;bottom:35px;left:454px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb51" style="position:absolute;bottom:35px;left:463px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb52" style="position:absolute;bottom:35px;left:472px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb53" style="position:absolute;bottom:35px;left:481px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb54" style="position:absolute;bottom:35px;left:490px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb55" style="position:absolute;bottom:35px;left:499px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb56" style="position:absolute;bottom:35px;left:508px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb57" style="position:absolute;bottom:35px;left:517px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb58" style="position:absolute;bottom:35px;left:526px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb59" style="position:absolute;bottom:35px;left:535px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb60" style="position:absolute;bottom:35px;left:544px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb61" style="position:absolute;bottom:35px;left:553px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb62" style="position:absolute;bottom:35px;left:562px;width:3px;height:1px;background:#00f5a0;"></div>
+                                    <div id="sb63" style="position:absolute;bottom:35px;left:571px;width:3px;height:1px;background:#00f5a0;"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td width="30%" valign="top">
+                            <div class="panel">
+                                <div class="panel-title" id="master-title" style="margin-bottom: 8px;">MASTER</div>
+                                <table cellpadding="0" cellspacing="0"><tr>
+                                    <td class="knob-wrap"><div class="knob-label">Width</div><div class="knob-outer"><div class="knob-mid" id="knob-master_width" data-p="master_width" data-min="0" data-max="1" data-val="1" data-step="0.01" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-master_width"></div></div></div><div class="knob-val" id="val-master_width">100%</div></td>
+                                    <td class="knob-wrap"><div class="knob-label">Gain</div><div class="knob-outer"><div class="knob-mid" id="knob-master_gain" data-p="master_gain" data-min="-60" data-max="0" data-val="-12" data-step="0.1" onmousedown="return knobMouseDown(this)"><div class="knob-inner"></div><div class="knob-line" id="line-master_gain"></div></div></div><div class="knob-val" id="val-master_gain">-12dB</div></td>
+                                </tr></table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+            <td colspan="2" class="footer" style="background: #101018; border-top: 1px solid #2a2a3a;">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td><span class="led" id="led" style="background: #00f5a0;"></span><span id="status-text">Ready</span></td>
+                        <td align="right">
+                            <span class="badge">Faust DSP</span>
+                            <span class="badge">JUCE</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <iframe id="juce-bridge" style="display:none;"></iframe>
+
+    <script>
+    // Theme colors
+    var themes = {
+        celestial: { bg: '#0c0c12', main: '#14141c', panel: '#1e1e28', border: '#3a3a4a', borderLight: '#4a4a5a', accent: '#00f5a0', accent2: '#00d4aa', text: '#e0e0e0', muted: '#888', knobBg: '#18181f', knobInner: '#252530' },
+        heaven: { bg: '#e8e4dc', main: '#f0ede5', panel: '#e0dcd4', border: '#bbb', borderLight: '#ccc', accent: '#2a2a4e', accent2: '#3d3d5c', text: '#333', muted: '#777', knobBg: '#d8d4cc', knobInner: '#c8c4bc' },
+        hell: { bg: '#17131b', main: '#0f0d12', panel: '#1f1b23', border: '#444', borderLight: '#333', accent: '#d5d5b1', accent2: '#c2c2a3', text: '#ccc', muted: '#888', knobBg: '#272329', knobInner: '#373343' },
+        death: { bg: '#000000', main: '#080808', panel: '#0c0c0c', border: '#2a1010', borderLight: '#3a1515', accent: '#cc2020', accent2: '#20cc40', text: '#aa2020', muted: '#661515', knobBg: '#0a0505', knobInner: '#151010' }
+    };
+    var currentTheme = 'celestial';
+    var params = {};
+    var dragging = null;
+    var dragStartY = 0;
+    var dragStartVal = 0;
+
+    function getEvent() {
+        return window.event;
+    }
+
+    function setTheme(name) {
+        var t = themes[name];
+        if (!t) return;
+        currentTheme = name;
+
+        var body = document.getElementById('body');
+        body.style.backgroundColor = t.bg;
+        body.style.color = t.text;
+
+        var divs = document.getElementsByTagName('div');
+        var i;
+        for (i = 0; i < divs.length; i++) {
+            var cn = divs[i].className;
+            if (cn == 'panel') {
+                divs[i].style.backgroundColor = t.panel;
+                divs[i].style.borderColor = t.border;
+            }
+            if (cn == 'panel-title') {
+                divs[i].style.color = t.accent;
+                divs[i].style.borderBottomColor = t.border;
+            }
+            if (cn == 'knob-outer') {
+                divs[i].style.backgroundColor = t.bg;
+                divs[i].style.borderColor = t.border;
+            }
+            if (cn == 'knob-mid') {
+                divs[i].style.backgroundColor = t.knobBg;
+                divs[i].style.borderColor = t.border;
+            }
+            if (cn == 'knob-inner') {
+                divs[i].style.backgroundColor = t.knobInner;
+            }
+            if (cn == 'knob-line') {
+                divs[i].style.backgroundColor = t.accent;
+            }
+            if (cn == 'knob-val') {
+                divs[i].style.color = t.accent;
+            }
+            if (cn == 'knob-label') {
+                divs[i].style.color = t.muted;
+            }
+            if (cn == 'fx-title') {
+                divs[i].style.color = t.accent2;
+            }
+            if (cn == 'section-label') {
+                divs[i].style.color = t.accent2;
+            }
+        }
+
+        var logo = document.getElementById('logo');
+        if (logo) logo.style.color = t.accent;
+
+        var led = document.getElementById('led');
+        if (led) led.style.backgroundColor = t.accent;
+
+        var tables = document.getElementsByTagName('table');
+        for (i = 0; i < tables.length; i++) {
+            if (tables[i].width == '920') {
+                tables[i].style.backgroundColor = t.main;
+                tables[i].style.borderColor = t.border;
+            }
+        }
+
+        var btnIds = ['theme-celestial', 'theme-heaven', 'theme-hell', 'theme-death'];
+        for (i = 0; i < btnIds.length; i++) {
+            var btn = document.getElementById(btnIds[i]);
+            if (btn) {
+                if (btnIds[i] == 'theme-' + name) {
+                    btn.className = 'theme-btn theme-btn-active';
+                    btn.style.backgroundColor = t.accent;
+                    btn.style.color = t.bg;
+                    btn.style.borderColor = t.accent;
+                } else {
+                    btn.className = 'theme-btn';
+                    btn.style.backgroundColor = t.panel;
+                    btn.style.color = t.muted;
+                    btn.style.borderColor = t.border;
+                }
+            }
+        }
+
+        var allBtns = document.getElementsByTagName('button');
+        for (i = 0; i < allBtns.length; i++) {
+            var cn = allBtns[i].className;
+            if (cn && cn.indexOf('wave-btn') != -1) {
+                if (cn.indexOf('wave-btn-active') != -1) {
+                    allBtns[i].style.backgroundColor = t.accent;
+                    allBtns[i].style.color = t.bg;
+                    allBtns[i].style.borderColor = t.accent;
+                } else {
+                    allBtns[i].style.backgroundColor = t.panel;
+                    allBtns[i].style.color = t.muted;
+                    allBtns[i].style.borderColor = t.border;
+                }
+            }
+        }
+
+        var selects = document.getElementsByTagName('select');
+        for (i = 0; i < selects.length; i++) {
+            selects[i].style.backgroundColor = t.panel;
+            selects[i].style.borderColor = t.border;
+            selects[i].style.color = t.text;
+        }
+
+        // Update select arrows
+        for (i = 0; i < divs.length; i++) {
+            if (divs[i].className == 'select-arrow') {
+                divs[i].style.borderTopColor = t.accent;
+            }
+        }
+
+        var spans = document.getElementsByTagName('span');
+        for (i = 0; i < spans.length; i++) {
+            if (spans[i].className == 'badge') {
+                spans[i].style.backgroundColor = t.panel;
+                spans[i].style.borderColor = t.border;
+                spans[i].style.color = t.muted;
+            }
+        }
+
+        // Update oscilloscope colors
+        updateScopeColor(t.accent);
+        var scopeContainer = document.getElementById('scope');
+        if (scopeContainer) {
+            scopeContainer.style.backgroundColor = t.bg;
+            scopeContainer.style.borderColor = t.border;
+        }
+    }
+
+    function sendParam(name, value) {
+        params[name] = value;
+        var iframe = document.getElementById('juce-bridge');
+        if (iframe) {
+            iframe.src = 'juce://param/' + name + '/' + value;
+        }
+    }
+
+    function setWave(param, value, btn) {
+        var parent = btn.parentNode;
+        var btns = parent.getElementsByTagName('button');
+        var t = themes[currentTheme];
+        var i;
+        for (i = 0; i < btns.length; i++) {
+            btns[i].className = 'wave-btn';
+            btns[i].style.backgroundColor = t.panel;
+            btns[i].style.color = t.muted;
+            btns[i].style.borderColor = t.border;
+        }
+        btn.className = 'wave-btn wave-btn-active';
+        btn.style.backgroundColor = t.accent;
+        btn.style.color = t.bg;
+        btn.style.borderColor = t.accent;
+        sendParam(param, value);
+    }
+
+    function formatValue(param, value) {
+        if (param.indexOf('cutoff') != -1 || param.indexOf('freq') != -1) {
+            if (value >= 1000) return (value / 1000).toFixed(1) + 'k';
+            return Math.round(value);
+        }
+        if (param.indexOf('_a') != -1 || param.indexOf('_d') != -1 || param.indexOf('_r') != -1) {
+            if (value >= 1) return value.toFixed(1) + 's';
+            return Math.round(value * 1000) + 'ms';
+        }
+        if (param == 'master_gain') return value.toFixed(0) + 'dB';
+        if (param.indexOf('pan') != -1) {
+            if (value == 0) return 'C';
+            if (value < 0) return 'L' + Math.abs(Math.round(value * 100));
+            return 'R' + Math.round(value * 100);
+        }
+        if (param.indexOf('stereo') != -1) return Math.round(value);
+        if (param.indexOf('reso') != -1 || param.indexOf('drive') != -1) return value.toFixed(1);
+        if (param == 'delay_time') return Math.round(value * 1000) + 'ms';
+        if (param.indexOf('rate') != -1) return value.toFixed(2);
+        if (param.indexOf('octave') != -1 || param.indexOf('semi') != -1 || param.indexOf('fine') != -1) {
+            if (value > 0) return '+' + Math.round(value);
+            return Math.round(value);
+        }
+        return Math.round(value * 100) + '%';
+    }
+
+    function getAttr(el, name) {
+        return el.getAttribute(name);
+    }
+
+    function updateKnob(knob, value) {
+        var param = getAttr(knob, 'data-p');
+        var min = parseFloat(getAttr(knob, 'data-min'));
+        var max = parseFloat(getAttr(knob, 'data-max'));
+        var isLog = getAttr(knob, 'data-log') == '1';
+
+        var norm;
+        if (isLog && value > 0 && min > 0) {
+            norm = (Math.log(value) - Math.log(min)) / (Math.log(max) - Math.log(min));
+        } else {
+            norm = (value - min) / (max - min);
+        }
+        if (norm < 0) norm = 0;
+        if (norm > 1) norm = 1;
+
+        // Rotate the line indicator (-135 to +135 degrees)
+        var angle = -135 + norm * 270;
+        var line = document.getElementById('line-' + param);
+        if (line) {
+            // Calculate position on circle (radius 14, center at 18,18)
+            var rad = (angle - 90) * Math.PI / 180;
+            var x = 17 + Math.cos(rad) * 11;
+            var y = 3 + Math.sin(rad) * 11;
+            line.style.left = x + 'px';
+            line.style.top = y + 'px';
+            // Rotate the line
+            var rotStr = 'rotate(' + angle + 'deg)';
+            line.style.transform = rotStr;
+            line.style.msTransform = rotStr;
+            line.style.filter = 'progid:DXImageTransform.Microsoft.Matrix(sizingMethod="auto expand", M11=' + Math.cos(angle * Math.PI / 180) + ', M12=' + (-Math.sin(angle * Math.PI / 180)) + ', M21=' + Math.sin(angle * Math.PI / 180) + ', M22=' + Math.cos(angle * Math.PI / 180) + ')';
+        }
+
+        var valEl = document.getElementById('val-' + param);
+        if (valEl) {
+            valEl.innerHTML = formatValue(param, value);
+        }
+
+        params[param] = value;
+    }
+
+    function knobMouseDown(knob) {
+        var evt = getEvent();
+        dragging = knob;
+        dragStartY = evt ? evt.clientY : 0;
+        var param = getAttr(knob, 'data-p');
+        dragStartVal = params[param];
+        if (dragStartVal === undefined || dragStartVal === null) {
+            dragStartVal = parseFloat(getAttr(knob, 'data-val'));
+        }
+        return false;
+    }
+
+    function initKnobs() {
+        var divs = document.getElementsByTagName('div');
+        var i;
+        for (i = 0; i < divs.length; i++) {
+            if (divs[i].className == 'knob-mid') {
+                var val = parseFloat(getAttr(divs[i], 'data-val'));
+                updateKnob(divs[i], val);
+            }
+        }
+    }
+
+    document.onmousemove = function() {
+        if (!dragging) return;
+        var evt = getEvent();
+        if (!evt) return;
+
+        var knob = dragging;
+        var param = getAttr(knob, 'data-p');
+        var min = parseFloat(getAttr(knob, 'data-min'));
+        var max = parseFloat(getAttr(knob, 'data-max'));
+        var step = parseFloat(getAttr(knob, 'data-step'));
+        var isLog = getAttr(knob, 'data-log') == '1';
+
+        var delta = dragStartY - evt.clientY;
+        if (evt.shiftKey) delta = delta * 0.1;
+        var newVal;
+
+        if (isLog && min > 0 && dragStartVal > 0) {
+            var logMin = Math.log(min);
+            var logMax = Math.log(max);
+            var logStart = Math.log(dragStartVal);
+            var logNew = logStart + delta * 0.01 * (logMax - logMin);
+            if (logNew < logMin) logNew = logMin;
+            if (logNew > logMax) logNew = logMax;
+            newVal = Math.exp(logNew);
+        } else {
+            newVal = dragStartVal + delta * 0.01 * (max - min);
+        }
+
+        newVal = Math.round(newVal / step) * step;
+        if (newVal < min) newVal = min;
+        if (newVal > max) newVal = max;
+
+        updateKnob(knob, newVal);
+        sendParam(param, newVal);
+    };
+
+    document.onmouseup = function() {
+        dragging = null;
+    };
+
+    // Oscilloscope - using static HTML bars for IE compatibility
+    var SCOPE_SIZE = 64;
+    var scopeColor = '#00f5a0';
+    var lastScopeData = '';
+
+    function renderScope() {
+        // C++ sets window.sd as encoded string: "S" + 64 pairs of 2-digit numbers (00-99)
+        var raw = window.sd;
+        if (!raw || raw.length < 129 || raw.charAt(0) != 'S') return;
+        if (raw == lastScopeData) return;  // No change
+        lastScopeData = raw;
+
+        var i, bar, encoded, sample, height;
+        for (i = 0; i < SCOPE_SIZE; i++) {
+            bar = document.getElementById('sb' + i);
+            if (!bar) continue;
+            // Decode: read 2 chars starting at position 1 + i*2
+            encoded = parseInt(raw.substr(1 + i * 2, 2), 10);
+            // Map 0-99 back to -1 to +1
+            sample = (encoded / 49.5) - 1;
+            if (sample < -1) sample = -1;
+            if (sample > 1) sample = 1;
+            // Height: 35px is center, max range is 32px up or down
+            height = Math.abs(sample) * 32;
+            if (height < 1) height = 1;
+            bar.style.height = Math.round(height) + 'px';
+            // Position: positive goes up, negative goes down from center (35px)
+            if (sample >= 0) {
+                bar.style.bottom = '35px';
+            } else {
+                bar.style.bottom = (35 - height) + 'px';
+            }
+        }
+    }
+
+    // Poll for scope data from C++ (set via window.sd)
+    setInterval(renderScope, 40);
+
+    function updateScopeColor(color) {
+        scopeColor = color;
+        var i, bar;
+        for (i = 0; i < SCOPE_SIZE; i++) {
+            bar = document.getElementById('sb' + i);
+            if (bar) bar.style.backgroundColor = color;
+        }
+        var scopeTitle = document.getElementById('scope-title');
+        if (scopeTitle) scopeTitle.style.color = color;
+        var divs = document.getElementsByTagName('div');
+        for (i = 0; i < divs.length; i++) {
+            if (divs[i].className == 'scope-line-center') {
+                divs[i].style.backgroundColor = color;
+            }
+        }
+    }
+
+    window.onload = function() {
+        initKnobs();
+        setTheme('celestial');
+    };
+    </script>
+</body>
+</html>
