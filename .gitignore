@@ -3,6 +3,7 @@ Builds/*/x64/
 Builds/*/x86/
 Builds/**/Debug/
 Builds/**/Release/
+build/
 *.obj
 *.o
 *.exe
@@ -13,6 +14,16 @@ Builds/**/Release/
 *.res
 *.log
 *.tlog/
+*.vst3
+*.dll
+*.lib
+*.exp
+
+# WebView2 cache
+*.WebView2/
+
+# Third party SDKs (download separately)
+ThirdParty/
 
 # IDE files
 .vs/

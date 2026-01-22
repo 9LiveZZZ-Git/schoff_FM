@@ -26,90 +26,157 @@
             --glow: rgba(0, 245, 160, 0.4);
         }
 
-```
-    /* HEAVEN - Luminous ethereal light */
+    /* HEAVEN - Ethereal white, unsettling serenity */
     .theme-heaven {
-        --bg-void: #e8e4dc;
-        --bg-main: #f0ede5;
-        --bg-panel: #e0dcd4;
-        --bg-control: #d8d4cc;
-        --bg-knob: #d8d4cc;
-        --bg-knob-inner: #c8c4bc;
-        --border: #bbb;
-        --border-light: #ccc;
-        --accent: #2a2a4e;
-        --accent2: #3d3d5c;
-        --accent3: #4a4a6a;
-        --text: #333;
-        --text-muted: #777;
-        --glow: rgba(42, 42, 78, 0.3);
+        --bg-void: #f8f8ff;
+        --bg-main: #ffffff;
+        --bg-panel: #f0f0f8;
+        --bg-control: #e8e8f0;
+        --bg-knob: #e0e0e8;
+        --bg-knob-inner: #d0d0d8;
+        --border: #c0c0d0;
+        --border-light: #d8d8e8;
+        --accent: #8888aa;
+        --accent2: #9999bb;
+        --accent3: #7777aa;
+        --text: #555566;
+        --text-muted: #9999aa;
+        --glow: rgba(150, 150, 200, 0.5);
     }
     .theme-heaven::before {
         content: '';
         position: fixed;
         inset: 0;
-        background: 
-            radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.7) 0%, transparent 50%),
-            radial-gradient(ellipse at 70% 80%, rgba(255,250,240,0.5) 0%, transparent 50%);
+        background:
+            radial-gradient(ellipse at 50% 0%, rgba(255,255,255,1) 0%, transparent 60%),
+            radial-gradient(ellipse at 20% 50%, rgba(220,220,255,0.4) 0%, transparent 40%),
+            radial-gradient(ellipse at 80% 50%, rgba(220,220,255,0.4) 0%, transparent 40%);
         pointer-events: none;
         z-index: 0;
+        animation: heaven-shimmer 12s ease-in-out infinite;
+    }
+    @keyframes heaven-shimmer {
+        0%, 100% { opacity: 0.8; }
+        50% { opacity: 1; }
+    }
+    /* Unsettling slow pulse on main panel */
+    .theme-heaven .synth-main {
+        box-shadow: 0 0 80px rgba(200, 200, 255, 0.3), inset 0 0 60px rgba(255, 255, 255, 0.5);
+        animation: heaven-breathe 10s ease-in-out infinite;
+    }
+    @keyframes heaven-breathe {
+        0%, 100% { box-shadow: 0 0 80px rgba(200, 200, 255, 0.3), inset 0 0 60px rgba(255, 255, 255, 0.5); }
+        50% { box-shadow: 0 0 120px rgba(200, 200, 255, 0.5), inset 0 0 80px rgba(255, 255, 255, 0.7); }
+    }
+    /* Ethereal fading text */
+    .theme-heaven .logo {
+        animation: heaven-fade 8s ease-in-out infinite;
+        text-shadow: 0 0 20px rgba(150, 150, 200, 0.8), 0 0 40px rgba(200, 200, 255, 0.4);
+    }
+    @keyframes heaven-fade {
+        0%, 100% { opacity: 0.7; letter-spacing: 3px; }
+        50% { opacity: 1; letter-spacing: 4px; }
+    }
+    /* Ghostly LED - barely visible pulses */
+    .theme-heaven .led {
+        background: var(--accent);
+        animation: heaven-led 6s ease-in-out infinite;
+    }
+    @keyframes heaven-led {
+        0%, 100% { opacity: 0.3; box-shadow: 0 0 15px var(--glow); }
+        50% { opacity: 0.7; box-shadow: 0 0 25px var(--glow); }
+    }
+    /* Knobs have subtle inner shadow for depth */
+    .theme-heaven .knob-mid {
+        box-shadow: inset 0 2px 8px rgba(0,0,0,0.1), 0 0 15px rgba(200, 200, 255, 0.2);
+    }
+    .theme-heaven .knob-mid:hover {
+        box-shadow: inset 0 2px 8px rgba(0,0,0,0.1), 0 0 25px rgba(150, 150, 200, 0.5);
     }
 
-    /* HELL - Spooky inverse of Heaven: thick blacks, ghostly pale */
+    /* HELL - Inverse of Heaven: void black, ghostly pale accents */
     .theme-hell {
         --bg-void: #000000;
         --bg-main: #030303;
         --bg-panel: #080808;
-        --bg-control: #0a0a0a;
-        --bg-knob: #050505;
-        --bg-knob-inner: #0c0c0c;
-        --border: #1a1a1a;
-        --border-light: #111111;
-        --accent: #c8c0b0;
-        --accent2: #a09888;
-        --accent3: #706860;
-        --text: #b8b0a0;
-        --text-muted: #605850;
-        --glow: rgba(180, 170, 150, 0.25);
+        --bg-control: #0c0c0c;
+        --bg-knob: #060606;
+        --bg-knob-inner: #0a0a0a;
+        --border: #151515;
+        --border-light: #1a1a1a;
+        --accent: #d0d0e0;
+        --accent2: #a0a0b0;
+        --accent3: #808090;
+        --text: #c0c0d0;
+        --text-muted: #505060;
+        --glow: rgba(200, 200, 220, 0.15);
     }
     .theme-hell::before {
         content: '';
         position: fixed;
         inset: 0;
-        background: 
-            radial-gradient(ellipse at 30% 20%, rgba(0,0,0,0.95) 0%, transparent 50%),
-            radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.9) 0%, transparent 50%);
+        background:
+            radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.98) 0%, transparent 60%),
+            radial-gradient(ellipse at 20% 50%, rgba(20,20,30,0.3) 0%, transparent 40%),
+            radial-gradient(ellipse at 80% 50%, rgba(20,20,30,0.3) 0%, transparent 40%);
         pointer-events: none;
         z-index: 0;
+        animation: hell-void 15s ease-in-out infinite;
     }
-    /* Eerie breathing darkness */
+    @keyframes hell-void {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.85; }
+    }
+    /* Oppressive darkness breathing */
     .theme-hell .synth-main {
+        box-shadow: 0 0 100px rgba(0,0,0,0.98), inset 0 0 50px rgba(0,0,0,0.8);
         animation: hell-breathe 8s ease-in-out infinite;
     }
     @keyframes hell-breathe {
-        0%, 100% { box-shadow: 0 0 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(0,0,0,0.5); }
-        50% { box-shadow: 0 0 80px rgba(0,0,0,0.95), inset 0 0 50px rgba(0,0,0,0.7); }
+        0%, 100% { box-shadow: 0 0 100px rgba(0,0,0,0.98), inset 0 0 50px rgba(0,0,0,0.8); }
+        50% { box-shadow: 0 0 150px rgba(0,0,0,1), inset 0 0 80px rgba(0,0,0,0.9); }
     }
-    /* Ghostly text flicker */
+    /* Ghostly flickering text - unsettling */
     .theme-hell .logo {
-        animation: hell-text-flicker 5s ease-in-out infinite;
+        animation: hell-text-flicker 4s steps(3) infinite;
+        text-shadow: 0 0 10px var(--glow);
     }
     @keyframes hell-text-flicker {
-        0%, 100% { opacity: 0.9; text-shadow: 0 0 8px var(--glow); }
-        25% { opacity: 0.7; }
-        50% { opacity: 0.85; text-shadow: 0 0 12px var(--glow); }
-        75% { opacity: 0.6; }
+        0%, 100% { opacity: 0.9; transform: translateX(0); }
+        10% { opacity: 0.4; }
+        20% { opacity: 0.85; transform: translateX(-1px); }
+        30% { opacity: 0.5; }
+        40% { opacity: 0.9; transform: translateX(1px); }
+        50% { opacity: 0.3; }
+        60% { opacity: 0.8; }
+        70% { opacity: 0.6; transform: translateX(-1px); }
+        80% { opacity: 0.95; }
+        90% { opacity: 0.4; transform: translateX(0); }
     }
-    /* Ghostly LED pulse - slower, eerier */
+    /* Barely visible LED - dying light */
     .theme-hell .led {
-        animation: hell-led 4s ease-in-out infinite;
+        background: var(--accent);
+        animation: hell-led 5s ease-in-out infinite;
     }
     @keyframes hell-led {
-        0%, 100% { opacity: 0.4; }
-        50% { opacity: 0.8; }
+        0%, 100% { opacity: 0.15; box-shadow: 0 0 5px var(--glow); }
+        25% { opacity: 0.4; }
+        50% { opacity: 0.1; box-shadow: 0 0 2px var(--glow); }
+        75% { opacity: 0.3; }
+    }
+    /* Knobs sink into the void */
+    .theme-hell .knob-mid {
+        box-shadow: inset 0 3px 10px rgba(0,0,0,0.9), 0 0 5px rgba(200, 200, 220, 0.05);
+    }
+    .theme-hell .knob-mid:hover {
+        box-shadow: inset 0 3px 10px rgba(0,0,0,0.9), 0 0 15px rgba(200, 200, 220, 0.1);
+    }
+    /* Panels have creepy vignette */
+    .theme-hell .panel {
+        box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
     }
 
-    /* DEATH - Corrupted, glitched */
+    /* DEATH - Corrupted, glitched, broken reality */
     .theme-death {
         --bg-void: #000000;
         --bg-main: #080808;
@@ -126,6 +193,7 @@
         --text-muted: #661515;
         --glow: rgba(200, 40, 40, 0.6);
     }
+    /* CRT scanlines overlay */
     .theme-death::before {
         content: '';
         position: fixed;
@@ -134,20 +202,173 @@
         animation: scanlines 0.08s steps(2) infinite;
         pointer-events: none;
         z-index: 1000;
-        opacity: 0.2;
+        opacity: 0.3;
     }
     @keyframes scanlines {
         0% { transform: translateY(0); }
         100% { transform: translateY(4px); }
     }
+    /* Static noise overlay */
+    .theme-death::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        opacity: 0.03;
+        pointer-events: none;
+        z-index: 999;
+        animation: noise-flicker 0.15s steps(3) infinite;
+    }
+    @keyframes noise-flicker {
+        0% { opacity: 0.03; }
+        50% { opacity: 0.05; }
+        100% { opacity: 0.02; }
+    }
+    /* Logo glitch */
     .theme-death .logo {
-        animation: death-glitch 4s steps(1) infinite;
+        animation: death-glitch 3s steps(1) infinite;
     }
     @keyframes death-glitch {
-        0%, 90%, 100% { text-shadow: 0 0 10px var(--glow); transform: translateX(0); }
-        91% { text-shadow: -3px 0 var(--accent2), 3px 0 var(--accent); transform: translateX(-2px); }
-        93% { text-shadow: 3px 0 var(--accent2), -3px 0 var(--accent); transform: translateX(2px); }
-        95% { text-shadow: -2px 0 var(--accent2), 2px 0 var(--accent); transform: translateX(-1px); }
+        0%, 85%, 100% { text-shadow: 0 0 10px var(--glow); transform: translateX(0) skewX(0deg); filter: none; }
+        86% { text-shadow: -4px 0 var(--accent2), 4px 0 var(--accent); transform: translateX(-3px) skewX(-2deg); }
+        88% { text-shadow: 4px 0 var(--accent2), -4px 0 var(--accent); transform: translateX(3px) skewX(2deg); filter: brightness(1.5); }
+        90% { text-shadow: -2px 0 var(--accent2), 2px 0 var(--accent); transform: translateX(-1px) skewX(-1deg); }
+        92% { text-shadow: 3px 0 var(--accent2), -3px 0 var(--accent); transform: translateX(2px) skewX(1deg); }
+        94% { text-shadow: 0 -2px var(--accent2), 0 2px var(--accent); transform: translateY(-2px); filter: brightness(2); }
+    }
+    /* Panel glitch - random border flickers */
+    .theme-death .panel {
+        animation: panel-glitch 8s steps(1) infinite;
+        box-shadow: inset 0 0 20px rgba(200, 40, 40, 0.1);
+    }
+    @keyframes panel-glitch {
+        0%, 94%, 100% { border-color: var(--border); transform: translateX(0); }
+        95% { border-color: var(--accent); transform: translateX(-1px); }
+        96% { border-color: var(--accent2); transform: translateX(1px); }
+        97% { border-color: var(--accent); }
+    }
+    /* Panel title glitch */
+    .theme-death .panel-title {
+        animation: title-glitch 6s steps(1) infinite;
+    }
+    @keyframes title-glitch {
+        0%, 92%, 100% { text-shadow: 0 0 10px var(--glow); opacity: 1; }
+        93% { text-shadow: -2px 0 var(--accent2), 2px 0 var(--accent); opacity: 0.8; }
+        94% { text-shadow: 2px 0 var(--accent2), -2px 0 var(--accent); opacity: 0.9; }
+        95% { text-shadow: 0 0 15px var(--accent); opacity: 0.7; }
+    }
+    /* Knob value glitch */
+    .theme-death .knob-val {
+        animation: val-glitch 5s steps(1) infinite;
+    }
+    @keyframes val-glitch {
+        0%, 88%, 100% { text-shadow: none; transform: translateX(0); }
+        89% { text-shadow: -1px 0 var(--accent2), 1px 0 var(--accent); transform: translateX(-1px); }
+        91% { text-shadow: 1px 0 var(--accent2), -1px 0 var(--accent); transform: translateX(1px); }
+        93% { color: var(--accent2); }
+    }
+    /* Knob indicator line glitch */
+    .theme-death .knob-line {
+        animation: line-glitch 4s steps(1) infinite;
+    }
+    @keyframes line-glitch {
+        0%, 90%, 100% { box-shadow: 0 0 6px var(--glow); background: var(--accent); }
+        91% { box-shadow: 0 0 12px var(--accent2); background: var(--accent2); }
+        93% { box-shadow: 0 0 8px var(--accent); background: var(--accent); }
+        95% { box-shadow: 0 0 15px var(--accent2); background: var(--accent2); }
+    }
+    /* Wave button glitch */
+    .theme-death .wave-btn {
+        animation: btn-glitch 7s steps(1) infinite;
+    }
+    .theme-death .wave-btn:nth-child(odd) {
+        animation-delay: -2s;
+    }
+    .theme-death .wave-btn:nth-child(even) {
+        animation-delay: -4s;
+    }
+    @keyframes btn-glitch {
+        0%, 93%, 100% { transform: translateX(0); border-color: var(--border); }
+        94% { transform: translateX(-2px); border-color: var(--accent); }
+        96% { transform: translateX(2px); border-color: var(--accent2); }
+    }
+    /* Active wave button intense glitch */
+    .theme-death .wave-btn-active {
+        animation: btn-active-glitch 2s steps(1) infinite;
+    }
+    @keyframes btn-active-glitch {
+        0%, 85%, 100% { box-shadow: 0 0 10px var(--glow); }
+        86% { box-shadow: -3px 0 10px var(--accent), 3px 0 10px var(--accent2); transform: translateX(-1px); }
+        88% { box-shadow: 3px 0 10px var(--accent), -3px 0 10px var(--accent2); transform: translateX(1px); }
+        90% { box-shadow: 0 0 20px var(--accent2); }
+    }
+    /* Select dropdown glitch */
+    .theme-death .styled-select {
+        animation: select-glitch 9s steps(1) infinite;
+    }
+    @keyframes select-glitch {
+        0%, 91%, 100% { border-color: var(--border); }
+        92% { border-color: var(--accent); box-shadow: -2px 0 0 var(--accent2); }
+        94% { border-color: var(--accent2); box-shadow: 2px 0 0 var(--accent); }
+    }
+    /* LED death pulse */
+    .theme-death .led {
+        animation: led-death 1.5s steps(1) infinite;
+    }
+    @keyframes led-death {
+        0%, 70%, 100% { background: var(--accent); box-shadow: 0 0 8px var(--glow); opacity: 1; }
+        72% { background: var(--accent2); box-shadow: 0 0 15px rgba(32, 204, 64, 0.8); }
+        75% { background: var(--accent); opacity: 0.5; }
+        78% { background: var(--accent2); opacity: 1; box-shadow: 0 0 20px rgba(32, 204, 64, 0.8); }
+        80% { opacity: 0.3; }
+    }
+    /* FX title glitch */
+    .theme-death .fx-title {
+        animation: fx-glitch 5s steps(1) infinite;
+    }
+    @keyframes fx-glitch {
+        0%, 87%, 100% { text-shadow: none; transform: translateX(0); }
+        88% { text-shadow: -2px 0 var(--accent), 2px 0 var(--accent2); transform: translateX(-1px) skewX(-3deg); }
+        90% { text-shadow: 2px 0 var(--accent), -2px 0 var(--accent2); transform: translateX(1px) skewX(3deg); }
+        92% { color: var(--accent); }
+    }
+    /* Scope container glitch */
+    .theme-death .scope-container {
+        animation: scope-glitch 6s steps(1) infinite;
+    }
+    @keyframes scope-glitch {
+        0%, 89%, 100% { border-color: var(--border); }
+        90% { border-color: var(--accent); box-shadow: inset 0 0 20px rgba(200, 40, 40, 0.3); }
+        92% { border-color: var(--accent2); box-shadow: inset 0 0 20px rgba(32, 204, 64, 0.3); }
+        94% { border-color: var(--accent); transform: translateX(-1px); }
+    }
+    /* Main synth container corruption */
+    .theme-death .synth-main {
+        animation: synth-corrupt 10s steps(1) infinite;
+    }
+    @keyframes synth-corrupt {
+        0%, 96%, 100% { box-shadow: none; filter: none; }
+        97% { box-shadow: -3px 0 0 var(--accent), 3px 0 0 var(--accent2); filter: brightness(1.1); }
+        98% { box-shadow: 3px 0 0 var(--accent), -3px 0 0 var(--accent2); filter: brightness(0.9); }
+        99% { box-shadow: 0 -2px 0 var(--accent), 0 2px 0 var(--accent2); filter: contrast(1.2); }
+    }
+    /* Knob outer ring glitch */
+    .theme-death .knob-outer {
+        animation: knob-outer-glitch 7s steps(1) infinite;
+    }
+    @keyframes knob-outer-glitch {
+        0%, 92%, 100% { border-color: var(--border); }
+        93% { border-color: var(--accent); }
+        95% { border-color: var(--accent2); }
+    }
+    /* Header glitch */
+    .theme-death .header {
+        animation: header-glitch 8s steps(1) infinite;
+    }
+    @keyframes header-glitch {
+        0%, 95%, 100% { border-color: var(--border); }
+        96% { border-color: var(--accent); background: linear-gradient(90deg, var(--bg-main) 0%, rgba(200,40,40,0.1) 50%, var(--bg-main) 100%); }
+        98% { border-color: var(--accent2); background: linear-gradient(90deg, var(--bg-main) 0%, rgba(32,204,64,0.1) 50%, var(--bg-main) 100%); }
     }
 
     /* =================================================================
@@ -554,7 +775,6 @@
         z-index: 1;
     }
 </style>
-```
 
 </head>
 <body id="body">
@@ -580,7 +800,6 @@
             </td>
         </tr>
 
-```
     <!-- OSC 1 & OSC 2 -->
     <tr>
         <td width="50%" valign="top">
@@ -610,7 +829,7 @@
                                 <tr>
                                     <td class="knob-wrap"><div class="knob-label">Level</div><div class="knob-outer"><div class="knob-mid" id="knob-osc1_gain" data-p="osc1_gain" data-min="0" data-max="1" data-val="0.7" data-step="0.01"><div class="knob-inner"></div><div class="knob-line" id="line-osc1_gain"></div></div></div><div class="knob-val" id="val-osc1_gain">70%</div></td>
                                     <td class="knob-wrap"><div class="knob-label">Pan</div><div class="knob-outer"><div class="knob-mid" id="knob-osc1_pan" data-p="osc1_pan" data-min="-1" data-max="1" data-val="0" data-step="0.01"><div class="knob-inner"></div><div class="knob-line" id="line-osc1_pan"></div></div></div><div class="knob-val" id="val-osc1_pan">C</div></td>
-                                    <td class="knob-wrap"><div class="knob-label">Stereo</div><div class="knob-outer"><div class="knob-mid" id="knob-osc1_stereo" data-p="osc1_stereo" data-min="0" data-max="90" data-val="0" data-step="1"><div class="knob-inner"></div><div class="knob-line" id="line-osc1_stereo"></div></div></div><div class="knob-val" id="val-osc1_stereo">0°</div></td>
+                                    <td></td>
                                     <td></td>
                                 </tr>
                             </table>
@@ -646,7 +865,7 @@
                                 <tr>
                                     <td class="knob-wrap"><div class="knob-label">Level</div><div class="knob-outer"><div class="knob-mid" id="knob-osc2_gain" data-p="osc2_gain" data-min="0" data-max="1" data-val="0.7" data-step="0.01"><div class="knob-inner"></div><div class="knob-line" id="line-osc2_gain"></div></div></div><div class="knob-val" id="val-osc2_gain">70%</div></td>
                                     <td class="knob-wrap"><div class="knob-label">Pan</div><div class="knob-outer"><div class="knob-mid" id="knob-osc2_pan" data-p="osc2_pan" data-min="-1" data-max="1" data-val="0" data-step="0.01"><div class="knob-inner"></div><div class="knob-line" id="line-osc2_pan"></div></div></div><div class="knob-val" id="val-osc2_pan">C</div></td>
-                                    <td class="knob-wrap"><div class="knob-label">Stereo</div><div class="knob-outer"><div class="knob-mid" id="knob-osc2_stereo" data-p="osc2_stereo" data-min="0" data-max="90" data-val="0" data-step="1"><div class="knob-inner"></div><div class="knob-line" id="line-osc2_stereo"></div></div></div><div class="knob-val" id="val-osc2_stereo">0°</div></td>
+                                    <td></td>
                                     <td></td>
                                 </tr>
                             </table>
@@ -854,6 +1073,17 @@
                             <table cellpadding="0" cellspacing="0"><tr>
                                 <td class="knob-wrap"><div class="knob-label">Width</div><div class="knob-outer"><div class="knob-mid" id="knob-master_width" data-p="master_width" data-min="0" data-max="1" data-val="1" data-step="0.01"><div class="knob-inner"></div><div class="knob-line" id="line-master_width"></div></div></div><div class="knob-val" id="val-master_width">100%</div></td>
                                 <td class="knob-wrap"><div class="knob-label">Gain</div><div class="knob-outer"><div class="knob-mid" id="knob-master_gain" data-p="master_gain" data-min="-60" data-max="0" data-val="-12" data-step="0.1"><div class="knob-inner"></div><div class="knob-line" id="line-master_gain"></div></div></div><div class="knob-val" id="val-master_gain">-12dB</div></td>
+                                <td style="padding-left: 8px; vertical-align: top;">
+                                    <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Share Tech Mono', monospace;">Oversample</div>
+                                    <div class="select-wrap">
+                                        <select class="styled-select" style="width: 60px;" id="oversampling" onchange="sendParam('oversampling', this.value)">
+                                            <option value="0" selected>Off</option>
+                                            <option value="1">x4</option>
+                                            <option value="2">x8</option>
+                                        </select>
+                                        <div class="select-arrow"></div>
+                                    </div>
+                                </td>
                             </tr></table>
                         </div>
                     </td>
@@ -948,7 +1178,6 @@ function formatValue(param, value) {
         if (value < 0) return 'L' + Math.abs(Math.round(value * 100));
         return 'R' + Math.round(value * 100);
     }
-    if (param.indexOf('stereo') !== -1) return Math.round(value) + '°';
     if (param.indexOf('reso') !== -1 || param.indexOf('drive') !== -1) return value.toFixed(1);
     if (param === 'delay_time') return Math.round(value * 1000) + 'ms';
     if (param.indexOf('rate') !== -1) return value.toFixed(2);
@@ -1062,27 +1291,31 @@ window.updateParameter = function(param, value) {
 // =================================================================
 var scopeMode = 'wave';
 var scopeCanvas, scopeCtx;
-var scopeData = new Array(256).fill(0);
+var scopeData = new Array(256).fill(0);      // Waveform data
+var fftData = new Array(256).fill(0);         // FFT spectrum data
 var scopePhase = 0;
 var scopeAnimId = null;
+var hasRealWaveData = false;
+var hasRealFFTData = false;
+var lastDataTime = 0;
 
 function initScope() {
     scopeCanvas = document.getElementById('scope-canvas');
     if (!scopeCanvas) return;
-    
+
     var container = scopeCanvas.parentElement;
     var dpr = window.devicePixelRatio || 1;
-    
+
     // Set canvas size to match container
     var rect = container.getBoundingClientRect();
     scopeCanvas.width = rect.width * dpr;
     scopeCanvas.height = rect.height * dpr;
     scopeCanvas.style.width = rect.width + 'px';
     scopeCanvas.style.height = rect.height + 'px';
-    
+
     scopeCtx = scopeCanvas.getContext('2d');
     scopeCtx.scale(dpr, dpr);
-    
+
     // Start animation
     animateScope();
 }
@@ -1113,22 +1346,22 @@ function setScopeMode(mode) {
 
 function animateScope() {
     if (!scopeCtx) return;
-    
+
     var w = scopeCanvas.width / (window.devicePixelRatio || 1);
     var h = scopeCanvas.height / (window.devicePixelRatio || 1);
     var accent = getAccentColor();
     var glow = getGlowColor();
     var border = getBorderColor();
-    
+
     // Clear
     scopeCtx.fillStyle = 'transparent';
     scopeCtx.clearRect(0, 0, w, h);
-    
+
     // Draw grid
     scopeCtx.strokeStyle = border;
     scopeCtx.lineWidth = 0.5;
     scopeCtx.globalAlpha = 0.3;
-    
+
     // Horizontal grid lines
     for (var i = 0; i <= 4; i++) {
         var y = (h / 4) * i;
@@ -1137,7 +1370,7 @@ function animateScope() {
         scopeCtx.lineTo(w, y);
         scopeCtx.stroke();
     }
-    
+
     // Vertical grid lines
     for (var j = 0; j <= 8; j++) {
         var x = (w / 8) * j;
@@ -1146,7 +1379,7 @@ function animateScope() {
         scopeCtx.lineTo(x, h);
         scopeCtx.stroke();
     }
-    
+
     // Center line (brighter)
     scopeCtx.globalAlpha = 0.5;
     scopeCtx.strokeStyle = accent;
@@ -1154,40 +1387,50 @@ function animateScope() {
     scopeCtx.moveTo(0, h / 2);
     scopeCtx.lineTo(w, h / 2);
     scopeCtx.stroke();
-    
+
     scopeCtx.globalAlpha = 1;
-    
-    // Generate demo waveform (will be replaced by JUCE data)
-    scopePhase += 0.05;
-    for (var k = 0; k < 256; k++) {
-        var t = k / 256;
-        // Complex waveform: fundamental + harmonics
-        scopeData[k] = Math.sin(scopePhase + t * Math.PI * 4) * 0.5 +
-                      Math.sin(scopePhase * 1.5 + t * Math.PI * 8) * 0.25 +
-                      Math.sin(scopePhase * 0.7 + t * Math.PI * 2) * 0.15;
+
+    // Check if we have recent real data (within 500ms)
+    var now = Date.now();
+    var useRealData = (now - lastDataTime) < 500;
+
+    // Generate demo waveform only if no real data
+    if (!useRealData) {
+        scopePhase += 0.05;
+        for (var k = 0; k < 256; k++) {
+            var t = k / 256;
+            scopeData[k] = Math.sin(scopePhase + t * Math.PI * 4) * 0.5 +
+                          Math.sin(scopePhase * 1.5 + t * Math.PI * 8) * 0.25 +
+                          Math.sin(scopePhase * 0.7 + t * Math.PI * 2) * 0.15;
+        }
+        // Generate demo FFT from waveform
+        for (var m = 0; m < 256; m++) {
+            var freq = m / 256;
+            fftData[m] = Math.abs(scopeData[m % 256]) * (1 - freq * 0.5) * Math.exp(-freq * 1.5) + 0.02;
+        }
     }
-    
+
     // Draw based on mode
     if (scopeMode === 'wave') {
         drawWaveform(w, h, accent, glow);
     } else if (scopeMode === 'spectrum') {
         drawSpectrum(w, h, accent, glow);
     }
-    
+
     scopeAnimId = requestAnimationFrame(animateScope);
 }
 
 function drawWaveform(w, h, accent, glow) {
     var cy = h / 2;
     var amp = h * 0.4;
-    
+
     // Glow layer
     scopeCtx.strokeStyle = accent;
     scopeCtx.lineWidth = 4;
     scopeCtx.globalAlpha = 0.2;
     scopeCtx.lineCap = 'round';
     scopeCtx.lineJoin = 'round';
-    
+
     scopeCtx.beginPath();
     for (var i = 0; i < 256; i++) {
         var x = (i / 255) * w;
@@ -1196,13 +1439,13 @@ function drawWaveform(w, h, accent, glow) {
         else scopeCtx.lineTo(x, y);
     }
     scopeCtx.stroke();
-    
+
     // Main line
     scopeCtx.lineWidth = 2;
     scopeCtx.globalAlpha = 1;
     scopeCtx.shadowColor = accent;
     scopeCtx.shadowBlur = 8;
-    
+
     scopeCtx.beginPath();
     for (var j = 0; j < 256; j++) {
         var xx = (j / 255) * w;
@@ -1218,48 +1461,50 @@ function drawSpectrum(w, h, accent, glow) {
     var binCount = 128;
     var barWidth = w / binCount;
     var maxH = h - 4;
-    
-    // Generate fake FFT data with more realistic spectrum shape
-    var fftData = [];
-    for (var i = 0; i < binCount; i++) {
-        // Combine multiple frequencies for realistic spectrum
-        var freq = i / binCount;
-        var val = 0;
-        // Low frequency content
-        val += Math.abs(scopeData[i % 256]) * (1 - freq * 0.3);
-        // Add some harmonics
-        val += Math.abs(scopeData[(i * 2) % 256]) * 0.3 * (1 - freq);
-        val += Math.abs(scopeData[(i * 3) % 256]) * 0.15 * (1 - freq * 1.5);
-        // High frequency rolloff
-        val *= Math.exp(-freq * 2);
-        // Add some noise floor
-        val += 0.02 + Math.random() * 0.03;
-        fftData.push(Math.min(1, val));
-    }
-    
+
     scopeCtx.shadowColor = accent;
     scopeCtx.shadowBlur = 3;
-    
+
     for (var j = 0; j < binCount; j++) {
-        var barH = fftData[j] * maxH;
+        // Use the real FFT data (downsampled from 256 to 128 bins)
+        var idx = Math.floor(j * 2);
+        var val = fftData[idx] || 0;
+        var barH = val * maxH;
         if (barH < 1) barH = 1;
-        
+
         var x = j * barWidth;
         var y = h - barH - 2;
-        
+
         // Color intensity based on magnitude
         scopeCtx.fillStyle = accent;
-        scopeCtx.globalAlpha = 0.4 + fftData[j] * 0.6;
+        scopeCtx.globalAlpha = 0.4 + val * 0.6;
         scopeCtx.fillRect(x, y, barWidth - 0.5, barH);
     }
-    
+
     scopeCtx.shadowBlur = 0;
     scopeCtx.globalAlpha = 1;
 }
 
-// JUCE can push scope data via this function
-window.updateScopeData = function(dataL, dataR) {
-    if (dataL && dataL.length) scopeData = dataL;
+// JUCE pushes waveform data via this function
+window.updateWaveformData = function(data) {
+    if (data && data.length) {
+        for (var i = 0; i < Math.min(data.length, 256); i++) {
+            scopeData[i] = data[i];
+        }
+        hasRealWaveData = true;
+        lastDataTime = Date.now();
+    }
+};
+
+// JUCE pushes FFT spectrum data via this function
+window.updateScopeData = function(data) {
+    if (data && data.length) {
+        for (var i = 0; i < Math.min(data.length, 256); i++) {
+            fftData[i] = data[i];
+        }
+        hasRealFFTData = true;
+        lastDataTime = Date.now();
+    }
 };
 
 window.onload = function() {
@@ -1274,7 +1519,6 @@ window.onresize = function() {
     initScope();
 };
 </script>
-```
 
 </body>
 </html>
