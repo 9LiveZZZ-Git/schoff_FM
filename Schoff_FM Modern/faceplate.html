@@ -1510,6 +1510,8 @@
 var currentTheme = 'celestial';
 var params = {};
 var dragging = null;
+var lastDragEndTime = 0;
+var dragCooldown = 200; // ms to ignore backend updates after drag ends
 var dragStartY = 0;
 var dragStartVal = 0;
 
@@ -1779,22 +1781,20 @@ document.onmousemove = function(e) {
 document.onmouseup = function() {
     if (dragging) {
         dragging.classList.remove('dragging');
+        lastDragEndTime = Date.now(); // Start cooldown period
     }
     dragging = null;
 };
 
 // JUCE callback - only update if value actually changed (prevents reset during drag)
 window.updateParameter = function(param, value) {
-    // Don't update while user is dragging
+    // Don't update while user is dragging or during cooldown period after drag
     if (dragging) return;
+    if (Date.now() - lastDragEndTime < dragCooldown) return;
 
     var knob = document.getElementById('knob-' + param);
     if (knob) {
-        // Only update if value changed significantly (avoids floating point noise)
-        var currentVal = params[param];
-        if (currentVal === undefined || Math.abs(currentVal - value) > 0.0001) {
-            updateKnob(knob, value);
-        }
+        updateKnob(knob, value);
     }
 };
 
