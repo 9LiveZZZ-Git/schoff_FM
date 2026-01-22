@@ -26,26 +26,15 @@ PluginEditor::PluginEditor(PluginProcessor& p)
                          juce::WebBrowserComponent::NativeFunctionCompletion completion) {
                       handleSetScale(args, std::move(completion));
                   })
+              .withResourceProvider([this](const juce::String& url) { return getResource(url); },
+                  juce::URL("https://plugin.local/").getOrigin())
       )
 {
     setSize(baseWidth, baseHeight);
     addAndMakeVisible(webView);
 
-    // Load faceplate.html from the same folder as the executable
-    auto exeFile = juce::File::getSpecialLocation(juce::File::currentExecutableFile);
-    auto faceplateFile = exeFile.getParentDirectory().getChildFile("faceplate.html");
-
-    if (faceplateFile.existsAsFile())
-    {
-        webView.goToURL(juce::URL(faceplateFile).toString(true));
-    }
-    else
-    {
-        // Fallback: try current working directory
-        auto cwdFaceplate = juce::File::getCurrentWorkingDirectory().getChildFile("faceplate.html");
-        if (cwdFaceplate.existsAsFile())
-            webView.goToURL(juce::URL(cwdFaceplate).toString(true));
-    }
+    // Load embedded faceplate.html via resource provider
+    webView.goToURL("https://plugin.local/faceplate.html");
 
     startTimerHz(30);
 }
