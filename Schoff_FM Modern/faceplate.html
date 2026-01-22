@@ -2104,6 +2104,35 @@ window.onload = function() {
     initScope();
     startFXActiveCheck();
     startMeterAnimation();
+
+    // Load saved parameters from backend on startup
+    if (typeof __JUCE__ !== 'undefined' && __JUCE__.backend) {
+        __JUCE__.backend.getNativeFunction('getAllParameters')().then(function(savedParams) {
+            if (savedParams) {
+                for (var param in savedParams) {
+                    var value = savedParams[param];
+                    params[param] = value;
+
+                    // Update knobs
+                    var knob = document.getElementById('knob-' + param);
+                    if (knob) {
+                        updateKnob(knob, value);
+                    }
+
+                    // Update wave buttons
+                    if (param.indexOf('_wave') !== -1 && param !== 'sub_wave') {
+                        setWaveByValue(param, Math.round(value));
+                    }
+
+                    // Update dropdowns
+                    var sel = document.getElementById(param);
+                    if (sel && sel.tagName === 'SELECT') {
+                        sel.value = Math.round(value);
+                    }
+                }
+            }
+        });
+    }
 };
 
 // Handle resize

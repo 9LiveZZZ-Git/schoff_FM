@@ -57,7 +57,8 @@ void PluginEditor::resized()
 
 void PluginEditor::timerCallback()
 {
-    syncParametersToUI();
+    // Note: Removed syncParametersToUI() - UI is source of truth
+    // Parameters only sync on load via getAllParameters
 
     // Send FFT spectrum data
     if (processor.spectrumAnalyzer.isFFTReady())
