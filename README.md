@@ -5,6 +5,7 @@ A modern FM synthesizer plugin built with JUCE 8 and WebView2, featuring a sleek
 ## Features
 
 - **8-voice polyphonic FM synthesis**
+- **Hilbert Transform** Stereo width and mono compatibility enforcement
 - **2 oscillators** with 7 waveforms each (Saw, Saw+, Tri, Tri+, Sqr, Pulse, Sine)
 - **Sub oscillator** with octave selection
 - **Noise generator** (White, Pink, Brown)
