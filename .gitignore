@@ -1,9 +1,6 @@
 # Build outputs
-Builds/*/x64/
-Builds/*/x86/
-Builds/**/Debug/
-Builds/**/Release/
 build/
+Builds/
 *.obj
 *.o
 *.pdb
@@ -16,14 +13,6 @@ build/
 *.lib
 *.exp
 
-# Allow release binaries in Schoff_FM Modern
-!Schoff_FM Modern/*.exe
-!Schoff_FM Modern/*.dll
-!Schoff_FM Modern/*.vst3
-
-# WebView2 cache
-*.WebView2/
-
 # Third party SDKs (download separately)
 ThirdParty/
 
@@ -31,13 +20,37 @@ ThirdParty/
 .vs/
 *.user
 *.suo
+*.vcxproj.user
 
-# Claude settings
-.claude/
+# WebView2 cache
+*.WebView2/
 
 # macOS
 .DS_Store
 
-# Gradle
+# Gradle (Android)
 .gradle/
 local.properties
+
+# Legacy/unused files (keep locally but don't track)
+JuceLibraryCode/
+Old HTMLs/
+Schoff_FM (old CSS)/
+*.jucer
+*.dsp
+FaustAudioApplication.cpp
+JUCE_FFT_Integration.h
+JUCE_INTEGRATION_GUIDE.cpp
+schoffhauzer_faceplate_final.html
+setup webview2
+setup_webview2.ps1
+webview2 Juice
+effect.h
+
+# Claude settings
+.claude/
+
+# Allow release binaries
+!Schoff_FM Modern/*.exe
+!Schoff_FM Modern/*.dll
+!Schoff_FM Modern/*.vst3

@@ -26,90 +26,157 @@
             --glow: rgba(0, 245, 160, 0.4);
         }
 
-```
-    /* HEAVEN - Luminous ethereal light */
+    /* HEAVEN - Ethereal white, unsettling serenity */
     .theme-heaven {
-        --bg-void: #e8e4dc;
-        --bg-main: #f0ede5;
-        --bg-panel: #e0dcd4;
-        --bg-control: #d8d4cc;
-        --bg-knob: #d8d4cc;
-        --bg-knob-inner: #c8c4bc;
-        --border: #bbb;
-        --border-light: #ccc;
-        --accent: #2a2a4e;
-        --accent2: #3d3d5c;
-        --accent3: #4a4a6a;
-        --text: #333;
-        --text-muted: #777;
-        --glow: rgba(42, 42, 78, 0.3);
+        --bg-void: #f8f8ff;
+        --bg-main: #ffffff;
+        --bg-panel: #f0f0f8;
+        --bg-control: #e8e8f0;
+        --bg-knob: #e0e0e8;
+        --bg-knob-inner: #d0d0d8;
+        --border: #c0c0d0;
+        --border-light: #d8d8e8;
+        --accent: #8888aa;
+        --accent2: #9999bb;
+        --accent3: #7777aa;
+        --text: #555566;
+        --text-muted: #9999aa;
+        --glow: rgba(150, 150, 200, 0.5);
     }
     .theme-heaven::before {
         content: '';
         position: fixed;
         inset: 0;
-        background: 
-            radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.7) 0%, transparent 50%),
-            radial-gradient(ellipse at 70% 80%, rgba(255,250,240,0.5) 0%, transparent 50%);
+        background:
+            radial-gradient(ellipse at 50% 0%, rgba(255,255,255,1) 0%, transparent 60%),
+            radial-gradient(ellipse at 20% 50%, rgba(220,220,255,0.4) 0%, transparent 40%),
+            radial-gradient(ellipse at 80% 50%, rgba(220,220,255,0.4) 0%, transparent 40%);
         pointer-events: none;
         z-index: 0;
+        animation: heaven-shimmer 12s ease-in-out infinite;
+    }
+    @keyframes heaven-shimmer {
+        0%, 100% { opacity: 0.8; }
+        50% { opacity: 1; }
+    }
+    /* Unsettling slow pulse on main panel */
+    .theme-heaven .synth-main {
+        box-shadow: 0 0 80px rgba(200, 200, 255, 0.3), inset 0 0 60px rgba(255, 255, 255, 0.5);
+        animation: heaven-breathe 10s ease-in-out infinite;
+    }
+    @keyframes heaven-breathe {
+        0%, 100% { box-shadow: 0 0 80px rgba(200, 200, 255, 0.3), inset 0 0 60px rgba(255, 255, 255, 0.5); }
+        50% { box-shadow: 0 0 120px rgba(200, 200, 255, 0.5), inset 0 0 80px rgba(255, 255, 255, 0.7); }
+    }
+    /* Ethereal fading text */
+    .theme-heaven .logo {
+        animation: heaven-fade 8s ease-in-out infinite;
+        text-shadow: 0 0 20px rgba(150, 150, 200, 0.8), 0 0 40px rgba(200, 200, 255, 0.4);
+    }
+    @keyframes heaven-fade {
+        0%, 100% { opacity: 0.7; letter-spacing: 3px; }
+        50% { opacity: 1; letter-spacing: 4px; }
+    }
+    /* Ghostly LED - barely visible pulses */
+    .theme-heaven .led {
+        background: var(--accent);
+        animation: heaven-led 6s ease-in-out infinite;
+    }
+    @keyframes heaven-led {
+        0%, 100% { opacity: 0.3; box-shadow: 0 0 15px var(--glow); }
+        50% { opacity: 0.7; box-shadow: 0 0 25px var(--glow); }
+    }
+    /* Knobs have subtle inner shadow for depth */
+    .theme-heaven .knob-mid {
+        box-shadow: inset 0 2px 8px rgba(0,0,0,0.1), 0 0 15px rgba(200, 200, 255, 0.2);
+    }
+    .theme-heaven .knob-mid:hover {
+        box-shadow: inset 0 2px 8px rgba(0,0,0,0.1), 0 0 25px rgba(150, 150, 200, 0.5);
     }
 
-    /* HELL - Spooky inverse of Heaven: thick blacks, ghostly pale */
+    /* HELL - Inverse of Heaven: void black, ghostly pale accents */
     .theme-hell {
         --bg-void: #000000;
         --bg-main: #030303;
         --bg-panel: #080808;
-        --bg-control: #0a0a0a;
-        --bg-knob: #050505;
-        --bg-knob-inner: #0c0c0c;
-        --border: #1a1a1a;
-        --border-light: #111111;
-        --accent: #c8c0b0;
-        --accent2: #a09888;
-        --accent3: #706860;
-        --text: #b8b0a0;
-        --text-muted: #605850;
-        --glow: rgba(180, 170, 150, 0.25);
+        --bg-control: #0c0c0c;
+        --bg-knob: #060606;
+        --bg-knob-inner: #0a0a0a;
+        --border: #151515;
+        --border-light: #1a1a1a;
+        --accent: #d0d0e0;
+        --accent2: #a0a0b0;
+        --accent3: #808090;
+        --text: #c0c0d0;
+        --text-muted: #505060;
+        --glow: rgba(200, 200, 220, 0.15);
     }
     .theme-hell::before {
         content: '';
         position: fixed;
         inset: 0;
-        background: 
-            radial-gradient(ellipse at 30% 20%, rgba(0,0,0,0.95) 0%, transparent 50%),
-            radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.9) 0%, transparent 50%);
+        background:
+            radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.98) 0%, transparent 60%),
+            radial-gradient(ellipse at 20% 50%, rgba(20,20,30,0.3) 0%, transparent 40%),
+            radial-gradient(ellipse at 80% 50%, rgba(20,20,30,0.3) 0%, transparent 40%);
         pointer-events: none;
         z-index: 0;
+        animation: hell-void 15s ease-in-out infinite;
     }
-    /* Eerie breathing darkness */
+    @keyframes hell-void {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.85; }
+    }
+    /* Oppressive darkness breathing */
     .theme-hell .synth-main {
+        box-shadow: 0 0 100px rgba(0,0,0,0.98), inset 0 0 50px rgba(0,0,0,0.8);
         animation: hell-breathe 8s ease-in-out infinite;
     }
     @keyframes hell-breathe {
-        0%, 100% { box-shadow: 0 0 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(0,0,0,0.5); }
-        50% { box-shadow: 0 0 80px rgba(0,0,0,0.95), inset 0 0 50px rgba(0,0,0,0.7); }
+        0%, 100% { box-shadow: 0 0 100px rgba(0,0,0,0.98), inset 0 0 50px rgba(0,0,0,0.8); }
+        50% { box-shadow: 0 0 150px rgba(0,0,0,1), inset 0 0 80px rgba(0,0,0,0.9); }
     }
-    /* Ghostly text flicker */
+    /* Ghostly flickering text - unsettling */
     .theme-hell .logo {
-        animation: hell-text-flicker 5s ease-in-out infinite;
+        animation: hell-text-flicker 4s steps(3) infinite;
+        text-shadow: 0 0 10px var(--glow);
     }
     @keyframes hell-text-flicker {
-        0%, 100% { opacity: 0.9; text-shadow: 0 0 8px var(--glow); }
-        25% { opacity: 0.7; }
-        50% { opacity: 0.85; text-shadow: 0 0 12px var(--glow); }
-        75% { opacity: 0.6; }
+        0%, 100% { opacity: 0.9; transform: translateX(0); }
+        10% { opacity: 0.4; }
+        20% { opacity: 0.85; transform: translateX(-1px); }
+        30% { opacity: 0.5; }
+        40% { opacity: 0.9; transform: translateX(1px); }
+        50% { opacity: 0.3; }
+        60% { opacity: 0.8; }
+        70% { opacity: 0.6; transform: translateX(-1px); }
+        80% { opacity: 0.95; }
+        90% { opacity: 0.4; transform: translateX(0); }
     }
-    /* Ghostly LED pulse - slower, eerier */
+    /* Barely visible LED - dying light */
     .theme-hell .led {
-        animation: hell-led 4s ease-in-out infinite;
+        background: var(--accent);
+        animation: hell-led 5s ease-in-out infinite;
     }
     @keyframes hell-led {
-        0%, 100% { opacity: 0.4; }
-        50% { opacity: 0.8; }
+        0%, 100% { opacity: 0.15; box-shadow: 0 0 5px var(--glow); }
+        25% { opacity: 0.4; }
+        50% { opacity: 0.1; box-shadow: 0 0 2px var(--glow); }
+        75% { opacity: 0.3; }
+    }
+    /* Knobs sink into the void */
+    .theme-hell .knob-mid {
+        box-shadow: inset 0 3px 10px rgba(0,0,0,0.9), 0 0 5px rgba(200, 200, 220, 0.05);
+    }
+    .theme-hell .knob-mid:hover {
+        box-shadow: inset 0 3px 10px rgba(0,0,0,0.9), 0 0 15px rgba(200, 200, 220, 0.1);
+    }
+    /* Panels have creepy vignette */
+    .theme-hell .panel {
+        box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
     }
 
-    /* DEATH - Corrupted, glitched */
+    /* DEATH - Corrupted, glitched, broken reality */
     .theme-death {
         --bg-void: #000000;
         --bg-main: #080808;
@@ -126,6 +193,7 @@
         --text-muted: #661515;
         --glow: rgba(200, 40, 40, 0.6);
     }
+    /* CRT scanlines overlay */
     .theme-death::before {
         content: '';
         position: fixed;
@@ -134,20 +202,173 @@
         animation: scanlines 0.08s steps(2) infinite;
         pointer-events: none;
         z-index: 1000;
-        opacity: 0.2;
+        opacity: 0.3;
     }
     @keyframes scanlines {
         0% { transform: translateY(0); }
         100% { transform: translateY(4px); }
     }
+    /* Static noise overlay */
+    .theme-death::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        opacity: 0.03;
+        pointer-events: none;
+        z-index: 999;
+        animation: noise-flicker 0.15s steps(3) infinite;
+    }
+    @keyframes noise-flicker {
+        0% { opacity: 0.03; }
+        50% { opacity: 0.05; }
+        100% { opacity: 0.02; }
+    }
+    /* Logo glitch */
     .theme-death .logo {
-        animation: death-glitch 4s steps(1) infinite;
+        animation: death-glitch 3s steps(1) infinite;
     }
     @keyframes death-glitch {
-        0%, 90%, 100% { text-shadow: 0 0 10px var(--glow); transform: translateX(0); }
-        91% { text-shadow: -3px 0 var(--accent2), 3px 0 var(--accent); transform: translateX(-2px); }
-        93% { text-shadow: 3px 0 var(--accent2), -3px 0 var(--accent); transform: translateX(2px); }
-        95% { text-shadow: -2px 0 var(--accent2), 2px 0 var(--accent); transform: translateX(-1px); }
+        0%, 85%, 100% { text-shadow: 0 0 10px var(--glow); transform: translateX(0) skewX(0deg); filter: none; }
+        86% { text-shadow: -4px 0 var(--accent2), 4px 0 var(--accent); transform: translateX(-3px) skewX(-2deg); }
+        88% { text-shadow: 4px 0 var(--accent2), -4px 0 var(--accent); transform: translateX(3px) skewX(2deg); filter: brightness(1.5); }
+        90% { text-shadow: -2px 0 var(--accent2), 2px 0 var(--accent); transform: translateX(-1px) skewX(-1deg); }
+        92% { text-shadow: 3px 0 var(--accent2), -3px 0 var(--accent); transform: translateX(2px) skewX(1deg); }
+        94% { text-shadow: 0 -2px var(--accent2), 0 2px var(--accent); transform: translateY(-2px); filter: brightness(2); }
+    }
+    /* Panel glitch - random border flickers */
+    .theme-death .panel {
+        animation: panel-glitch 8s steps(1) infinite;
+        box-shadow: inset 0 0 20px rgba(200, 40, 40, 0.1);
+    }
+    @keyframes panel-glitch {
+        0%, 94%, 100% { border-color: var(--border); transform: translateX(0); }
+        95% { border-color: var(--accent); transform: translateX(-1px); }
+        96% { border-color: var(--accent2); transform: translateX(1px); }
+        97% { border-color: var(--accent); }
+    }
+    /* Panel title glitch */
+    .theme-death .panel-title {
+        animation: title-glitch 6s steps(1) infinite;
+    }
+    @keyframes title-glitch {
+        0%, 92%, 100% { text-shadow: 0 0 10px var(--glow); opacity: 1; }
+        93% { text-shadow: -2px 0 var(--accent2), 2px 0 var(--accent); opacity: 0.8; }
+        94% { text-shadow: 2px 0 var(--accent2), -2px 0 var(--accent); opacity: 0.9; }
+        95% { text-shadow: 0 0 15px var(--accent); opacity: 0.7; }
+    }
+    /* Knob value glitch */
+    .theme-death .knob-val {
+        animation: val-glitch 5s steps(1) infinite;
+    }
+    @keyframes val-glitch {
+        0%, 88%, 100% { text-shadow: none; transform: translateX(0); }
+        89% { text-shadow: -1px 0 var(--accent2), 1px 0 var(--accent); transform: translateX(-1px); }
+        91% { text-shadow: 1px 0 var(--accent2), -1px 0 var(--accent); transform: translateX(1px); }
+        93% { color: var(--accent2); }
+    }
+    /* Knob indicator line glitch */
+    .theme-death .knob-line {
+        animation: line-glitch 4s steps(1) infinite;
+    }
+    @keyframes line-glitch {
+        0%, 90%, 100% { box-shadow: 0 0 6px var(--glow); background: var(--accent); }
+        91% { box-shadow: 0 0 12px var(--accent2); background: var(--accent2); }
+        93% { box-shadow: 0 0 8px var(--accent); background: var(--accent); }
+        95% { box-shadow: 0 0 15px var(--accent2); background: var(--accent2); }
+    }
+    /* Wave button glitch */
+    .theme-death .wave-btn {
+        animation: btn-glitch 7s steps(1) infinite;
+    }
+    .theme-death .wave-btn:nth-child(odd) {
+        animation-delay: -2s;
+    }
+    .theme-death .wave-btn:nth-child(even) {
+        animation-delay: -4s;
+    }
+    @keyframes btn-glitch {
+        0%, 93%, 100% { transform: translateX(0); border-color: var(--border); }
+        94% { transform: translateX(-2px); border-color: var(--accent); }
+        96% { transform: translateX(2px); border-color: var(--accent2); }
+    }
+    /* Active wave button intense glitch */
+    .theme-death .wave-btn-active {
+        animation: btn-active-glitch 2s steps(1) infinite;
+    }
+    @keyframes btn-active-glitch {
+        0%, 85%, 100% { box-shadow: 0 0 10px var(--glow); }
+        86% { box-shadow: -3px 0 10px var(--accent), 3px 0 10px var(--accent2); transform: translateX(-1px); }
+        88% { box-shadow: 3px 0 10px var(--accent), -3px 0 10px var(--accent2); transform: translateX(1px); }
+        90% { box-shadow: 0 0 20px var(--accent2); }
+    }
+    /* Select dropdown glitch */
+    .theme-death .styled-select {
+        animation: select-glitch 9s steps(1) infinite;
+    }
+    @keyframes select-glitch {
+        0%, 91%, 100% { border-color: var(--border); }
+        92% { border-color: var(--accent); box-shadow: -2px 0 0 var(--accent2); }
+        94% { border-color: var(--accent2); box-shadow: 2px 0 0 var(--accent); }
+    }
+    /* LED death pulse */
+    .theme-death .led {
+        animation: led-death 1.5s steps(1) infinite;
+    }
+    @keyframes led-death {
+        0%, 70%, 100% { background: var(--accent); box-shadow: 0 0 8px var(--glow); opacity: 1; }
+        72% { background: var(--accent2); box-shadow: 0 0 15px rgba(32, 204, 64, 0.8); }
+        75% { background: var(--accent); opacity: 0.5; }
+        78% { background: var(--accent2); opacity: 1; box-shadow: 0 0 20px rgba(32, 204, 64, 0.8); }
+        80% { opacity: 0.3; }
+    }
+    /* FX title glitch */
+    .theme-death .fx-title {
+        animation: fx-glitch 5s steps(1) infinite;
+    }
+    @keyframes fx-glitch {
+        0%, 87%, 100% { text-shadow: none; transform: translateX(0); }
+        88% { text-shadow: -2px 0 var(--accent), 2px 0 var(--accent2); transform: translateX(-1px) skewX(-3deg); }
+        90% { text-shadow: 2px 0 var(--accent), -2px 0 var(--accent2); transform: translateX(1px) skewX(3deg); }
+        92% { color: var(--accent); }
+    }
+    /* Scope container glitch */
+    .theme-death .scope-container {
+        animation: scope-glitch 6s steps(1) infinite;
+    }
+    @keyframes scope-glitch {
+        0%, 89%, 100% { border-color: var(--border); }
+        90% { border-color: var(--accent); box-shadow: inset 0 0 20px rgba(200, 40, 40, 0.3); }
+        92% { border-color: var(--accent2); box-shadow: inset 0 0 20px rgba(32, 204, 64, 0.3); }
+        94% { border-color: var(--accent); transform: translateX(-1px); }
+    }
+    /* Main synth container corruption */
+    .theme-death .synth-main {
+        animation: synth-corrupt 10s steps(1) infinite;
+    }
+    @keyframes synth-corrupt {
+        0%, 96%, 100% { box-shadow: none; filter: none; }
+        97% { box-shadow: -3px 0 0 var(--accent), 3px 0 0 var(--accent2); filter: brightness(1.1); }
+        98% { box-shadow: 3px 0 0 var(--accent), -3px 0 0 var(--accent2); filter: brightness(0.9); }
+        99% { box-shadow: 0 -2px 0 var(--accent), 0 2px 0 var(--accent2); filter: contrast(1.2); }
+    }
+    /* Knob outer ring glitch */
+    .theme-death .knob-outer {
+        animation: knob-outer-glitch 7s steps(1) infinite;
+    }
+    @keyframes knob-outer-glitch {
+        0%, 92%, 100% { border-color: var(--border); }
+        93% { border-color: var(--accent); }
+        95% { border-color: var(--accent2); }
+    }
+    /* Header glitch */
+    .theme-death .header {
+        animation: header-glitch 8s steps(1) infinite;
+    }
+    @keyframes header-glitch {
+        0%, 95%, 100% { border-color: var(--border); }
+        96% { border-color: var(--accent); background: linear-gradient(90deg, var(--bg-main) 0%, rgba(200,40,40,0.1) 50%, var(--bg-main) 100%); }
+        98% { border-color: var(--accent2); background: linear-gradient(90deg, var(--bg-main) 0%, rgba(32,204,64,0.1) 50%, var(--bg-main) 100%); }
     }
 
     /* =================================================================
@@ -553,8 +774,370 @@
         position: relative;
         z-index: 1;
     }
+
+    /* =================================================================
+       SMOOTH THEME TRANSITIONS
+       ================================================================= */
+    body, .synth-main, .panel, .knob-outer, .knob-mid, .knob-inner,
+    .wave-btn, .theme-btn, .styled-select, .header, .footer, .led,
+    .badge, .scope-container, .fx-title, .panel-title, .knob-val,
+    .knob-line, .knob-label, .section-label {
+        transition: background-color 0.4s ease, border-color 0.4s ease,
+                    color 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
+    }
+
+    /* =================================================================
+       GLASS MORPHISM PANELS
+       ================================================================= */
+    .panel {
+        background: linear-gradient(135deg,
+            rgba(255,255,255,0.03) 0%,
+            rgba(255,255,255,0.01) 100%);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+    }
+    .theme-heaven .panel {
+        background: linear-gradient(135deg,
+            rgba(255,255,255,0.5) 0%,
+            rgba(255,255,255,0.3) 100%);
+        backdrop-filter: blur(4px);
+    }
+
+    /* =================================================================
+       KNOB TICK MARKS
+       ================================================================= */
+    .knob-outer {
+        position: relative;
+    }
+    .knob-outer::before {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: 50%;
+        background: conic-gradient(from 225deg,
+            var(--accent) 0deg, var(--accent) 2deg, transparent 2deg, transparent 27deg,
+            var(--border) 27deg, var(--border) 29deg, transparent 29deg, transparent 54deg,
+            var(--border) 54deg, var(--border) 56deg, transparent 56deg, transparent 81deg,
+            var(--border) 81deg, var(--border) 83deg, transparent 83deg, transparent 108deg,
+            var(--border) 108deg, var(--border) 110deg, transparent 110deg, transparent 135deg,
+            var(--border) 135deg, var(--border) 137deg, transparent 137deg, transparent 162deg,
+            var(--border) 162deg, var(--border) 164deg, transparent 164deg, transparent 189deg,
+            var(--border) 189deg, var(--border) 191deg, transparent 191deg, transparent 216deg,
+            var(--border) 216deg, var(--border) 218deg, transparent 218deg, transparent 243deg,
+            var(--border) 243deg, var(--border) 245deg, transparent 245deg, transparent 268deg,
+            var(--accent) 268deg, var(--accent) 270deg, transparent 270deg
+        );
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    /* =================================================================
+       LEVEL METERS
+       ================================================================= */
+    .level-meter-container {
+        display: flex;
+        gap: 4px;
+        align-items: flex-end;
+        height: 50px;
+        padding: 4px;
+    }
+    .level-meter {
+        width: 8px;
+        height: 100%;
+        background: var(--bg-void);
+        border: 1px solid var(--border);
+        border-radius: 2px;
+        position: relative;
+        overflow: hidden;
+    }
+    .level-meter-fill {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top,
+            var(--accent) 0%,
+            var(--accent) 60%,
+            #ffcc00 80%,
+            #ff4444 100%);
+        transition: height 0.05s linear;
+    }
+    .level-meter-peak {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--accent);
+        box-shadow: 0 0 4px var(--glow);
+    }
+    .level-label {
+        font-size: 8px;
+        color: var(--text-muted);
+        text-align: center;
+        font-family: 'Share Tech Mono', monospace;
+    }
+
+    /* =================================================================
+       EFFECT ACTIVE GLOW
+       ================================================================= */
+    .panel.fx-active {
+        box-shadow: inset 0 0 20px var(--glow), 0 0 15px var(--glow);
+    }
+    .panel.fx-active .fx-title::after {
+        content: ' ●';
+        color: var(--accent);
+        animation: fx-active-pulse 1s ease-in-out infinite;
+    }
+    @keyframes fx-active-pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+
+    /* =================================================================
+       MIDI ACTIVITY LED
+       ================================================================= */
+    .midi-led {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--bg-control);
+        border: 1px solid var(--border);
+        margin-right: 6px;
+        transition: all 0.05s;
+    }
+    .midi-led.active {
+        background: var(--accent);
+        box-shadow: 0 0 8px var(--glow);
+    }
+
+    /* =================================================================
+       VOICE COUNT
+       ================================================================= */
+    .voice-count {
+        display: inline-block;
+        padding: 2px 6px;
+        background: var(--bg-control);
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        font-size: 9px;
+        font-family: 'Share Tech Mono', monospace;
+        color: var(--accent);
+        margin-left: 8px;
+    }
+
+    /* =================================================================
+       TOOLTIPS
+       ================================================================= */
+    .knob-wrap {
+        position: relative;
+    }
+    .knob-wrap::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 4px 8px;
+        background: var(--bg-void);
+        border: 1px solid var(--accent);
+        color: var(--text);
+        font-size: 9px;
+        font-family: 'Share Tech Mono', monospace;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+        z-index: 100;
+        border-radius: 3px;
+    }
+    .knob-wrap:hover::after {
+        opacity: 1;
+    }
+    .knob-wrap[data-tooltip=""]::after {
+        display: none;
+    }
+
+    /* =================================================================
+       PRESET BUTTONS
+       ================================================================= */
+    .preset-bar {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        margin-left: 16px;
+    }
+    .preset-btn {
+        padding: 4px 10px;
+        background: var(--bg-control);
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        font-size: 9px;
+        font-family: 'Share Tech Mono', monospace;
+        cursor: pointer;
+        transition: all 0.15s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .preset-btn:hover {
+        border-color: var(--accent);
+        color: var(--text);
+        box-shadow: 0 0 8px var(--glow);
+    }
+    .preset-btn:active {
+        background: var(--accent);
+        color: var(--bg-void);
+    }
+    .preset-name {
+        padding: 4px 12px;
+        background: var(--bg-void);
+        border: 1px solid var(--border);
+        color: var(--accent);
+        font-size: 10px;
+        font-family: 'Share Tech Mono', monospace;
+        min-width: 120px;
+        text-align: center;
+    }
+
+    /* =================================================================
+       SPECTRUM FREQUENCY LABELS
+       ================================================================= */
+    .freq-labels {
+        display: flex;
+        justify-content: space-between;
+        padding: 2px 4px 0 4px;
+        font-size: 7px;
+        color: var(--text-muted);
+        font-family: 'Share Tech Mono', monospace;
+        opacity: 0.6;
+    }
+
+    /* =================================================================
+       ENHANCED PANEL DEPTH
+       ================================================================= */
+    .panel {
+        box-shadow:
+            inset 1px 1px 0 rgba(255,255,255,0.05),
+            inset -1px -1px 0 rgba(0,0,0,0.2),
+            0 4px 12px rgba(0,0,0,0.3);
+    }
+    .panel:hover {
+        box-shadow:
+            inset 1px 1px 0 rgba(255,255,255,0.08),
+            inset -1px -1px 0 rgba(0,0,0,0.2),
+            0 6px 16px rgba(0,0,0,0.4);
+    }
+
+    /* =================================================================
+       LOGO HOVER EFFECT
+       ================================================================= */
+    .logo {
+        cursor: default;
+        transition: all 0.3s ease;
+    }
+    .logo:hover {
+        letter-spacing: 5px;
+        text-shadow: 0 0 20px var(--glow), 0 0 40px var(--glow);
+    }
+
+    /* =================================================================
+       BUTTON MICRO-INTERACTIONS
+       ================================================================= */
+    .wave-btn {
+        transform: translateY(0);
+        transition: all 0.1s ease;
+    }
+    .wave-btn:hover {
+        transform: translateY(-1px);
+    }
+    .wave-btn:active {
+        transform: translateY(1px);
+    }
+    .wave-btn-active {
+        transform: translateY(0);
+    }
+
+    .theme-btn {
+        transform: scale(1);
+        transition: all 0.15s ease;
+    }
+    .theme-btn:hover {
+        transform: scale(1.05);
+    }
+    .theme-btn:active {
+        transform: scale(0.95);
+    }
+
+    /* =================================================================
+       KNOB ACTIVE STATE
+       ================================================================= */
+    .knob-mid.dragging {
+        box-shadow: 0 0 20px var(--glow), inset 0 0 10px rgba(0,0,0,0.3);
+        transform: scale(1.05);
+    }
+    .knob-mid {
+        transform: scale(1);
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+    }
+
+    /* =================================================================
+       OSCILLOSCOPE GLOW BORDER
+       ================================================================= */
+    .scope-container {
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 0 1px var(--accent);
+        transition: box-shadow 0.3s ease;
+    }
+    .scope-container:hover {
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 0 8px var(--glow);
+    }
+
+    /* =================================================================
+       FOOTER STATUS GLOW
+       ================================================================= */
+    .footer {
+        position: relative;
+        overflow: hidden;
+    }
+    .footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        opacity: 0.5;
+    }
+
+    /* =================================================================
+       HEADER GRADIENT
+       ================================================================= */
+    .header {
+        background: linear-gradient(180deg, var(--bg-main) 0%, var(--bg-panel) 100%);
+    }
+
+    /* =================================================================
+       SELECT FOCUS RING
+       ================================================================= */
+    .styled-select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px var(--glow);
+    }
+
+    /* =================================================================
+       BADGE HOVER
+       ================================================================= */
+    .badge {
+        transition: all 0.2s ease;
+        cursor: default;
+    }
+    .badge:hover {
+        background: var(--accent);
+        color: var(--bg-void);
+        border-color: var(--accent);
+    }
 </style>
-```
 
 </head>
 <body id="body">
@@ -569,6 +1152,13 @@
                             <span style="color: var(--text-muted); font-size: 16px; font-weight: normal;"> FM</span>
                             <div class="subtitle">Quasi-Bandlimited FM Synthesizer · 8 Voices</div>
                         </td>
+                        <td align="center" valign="middle">
+                            <div class="preset-bar">
+                                <button class="preset-btn" onclick="initPatch()" title="Initialize patch">Init</button>
+                                <div class="preset-name" id="preset-name">Default</div>
+                                <button class="preset-btn" onclick="randomizePatch()" title="Randomize parameters">Rnd</button>
+                            </div>
+                        </td>
                         <td align="right" valign="middle">
                             <button class="theme-btn theme-btn-active" id="theme-celestial" onclick="setTheme('celestial')">Celestial</button>
                             <button class="theme-btn" id="theme-heaven" onclick="setTheme('heaven')">Heaven</button>
@@ -580,7 +1170,6 @@
             </td>
         </tr>
 
-```
     <!-- OSC 1 & OSC 2 -->
     <tr>
         <td width="50%" valign="top">
@@ -671,7 +1260,7 @@
                                     <td style="padding-right: 10px;">
                                         <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px;">Wave</div>
                                         <div class="select-wrap">
-                                            <select class="styled-select" id="sub_wave" onchange="sendParam('sub_wave', this.value)">
+                                            <select class="styled-select" id="sub_wave" onchange="sendSelect('sub_wave', this.value)">
                                                 <option value="0">Sine</option>
                                                 <option value="1">Square</option>
                                                 <option value="2">Saw</option>
@@ -683,7 +1272,7 @@
                                     <td style="padding-right: 10px;">
                                         <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px;">Oct</div>
                                         <div class="select-wrap">
-                                            <select class="styled-select" style="width: 56px;" id="sub_octave" onchange="sendParam('sub_octave', this.value)">
+                                            <select class="styled-select" style="width: 56px;" id="sub_octave" onchange="sendSelect('sub_octave', this.value)">
                                                 <option value="0">-2</option>
                                                 <option value="1" selected>-1</option>
                                             </select>
@@ -701,7 +1290,7 @@
                                     <td style="padding-right: 10px;">
                                         <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px;">Type</div>
                                         <div class="select-wrap">
-                                            <select class="styled-select" id="noise_type" onchange="sendParam('noise_type', this.value)">
+                                            <select class="styled-select" id="noise_type" onchange="sendSelect('noise_type', this.value)">
                                                 <option value="0">White</option>
                                                 <option value="1">Pink</option>
                                                 <option value="2">Brown</option>
@@ -805,7 +1394,7 @@
                                 <td style="padding-right: 6px; vertical-align: top;">
                                     <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px;">Type</div>
                                     <div class="select-wrap">
-                                        <select class="styled-select" style="width: 72px;" id="reverb_type" onchange="sendParam('reverb_type', this.value)">
+                                        <select class="styled-select" style="width: 72px;" id="reverb_type" onchange="sendSelect('reverb_type', this.value)">
                                             <option value="0">Freeverb</option>
                                             <option value="1">Zita</option>
                                             <option value="2">Dattorro</option>
@@ -845,6 +1434,9 @@
                                     <div class="scope-overlay"></div>
                                     <div class="scope-info" id="scope-info">48kHz</div>
                                 </div>
+                                <div class="freq-labels" id="freq-labels" style="display: none;">
+                                    <span>20</span><span>50</span><span>100</span><span>200</span><span>500</span><span>1k</span><span>2k</span><span>5k</span><span>10k</span><span>20k</span>
+                                </div>
                             </div>
                         </div>
                     </td>
@@ -852,8 +1444,52 @@
                         <div class="panel">
                             <div class="panel-title">Master</div>
                             <table cellpadding="0" cellspacing="0"><tr>
-                                <td class="knob-wrap"><div class="knob-label">Width</div><div class="knob-outer"><div class="knob-mid" id="knob-master_width" data-p="master_width" data-min="0" data-max="1" data-val="1" data-step="0.01"><div class="knob-inner"></div><div class="knob-line" id="line-master_width"></div></div></div><div class="knob-val" id="val-master_width">100%</div></td>
-                                <td class="knob-wrap"><div class="knob-label">Gain</div><div class="knob-outer"><div class="knob-mid" id="knob-master_gain" data-p="master_gain" data-min="-60" data-max="0" data-val="-12" data-step="0.1"><div class="knob-inner"></div><div class="knob-line" id="line-master_gain"></div></div></div><div class="knob-val" id="val-master_gain">-12dB</div></td>
+                                <td class="knob-wrap" data-tooltip="Stereo width (Hilbert)"><div class="knob-label">Width</div><div class="knob-outer"><div class="knob-mid" id="knob-master_width" data-p="master_width" data-min="0" data-max="1" data-val="1" data-step="0.01"><div class="knob-inner"></div><div class="knob-line" id="line-master_width"></div></div></div><div class="knob-val" id="val-master_width">100%</div></td>
+                                <td class="knob-wrap" data-tooltip="Output level"><div class="knob-label">Gain</div><div class="knob-outer"><div class="knob-mid" id="knob-master_gain" data-p="master_gain" data-min="-60" data-max="0" data-val="-12" data-step="0.1"><div class="knob-inner"></div><div class="knob-line" id="line-master_gain"></div></div></div><div class="knob-val" id="val-master_gain">-12dB</div></td>
+                                <td style="padding-left: 8px; vertical-align: top;">
+                                    <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Share Tech Mono', monospace;">Oversample</div>
+                                    <div class="select-wrap">
+                                        <select class="styled-select" style="width: 60px;" id="oversampling" onchange="sendSelect('oversampling', this.value)">
+                                            <option value="0" selected>Off</option>
+                                            <option value="1">x4</option>
+                                            <option value="2">x8</option>
+                                        </select>
+                                        <div class="select-arrow"></div>
+                                    </div>
+                                </td>
+                                <td style="padding-left: 8px; vertical-align: top;">
+                                    <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Share Tech Mono', monospace;">UI Scale</div>
+                                    <div class="select-wrap">
+                                        <select class="styled-select" style="width: 60px;" id="ui-scale" onchange="setUIScale(this.value)">
+                                            <option value="0.5">50%</option>
+                                            <option value="0.75">75%</option>
+                                            <option value="1" selected>100%</option>
+                                            <option value="1.25">125%</option>
+                                            <option value="1.5">150%</option>
+                                            <option value="2">200%</option>
+                                        </select>
+                                        <div class="select-arrow"></div>
+                                    </div>
+                                </td>
+                                <td style="padding-left: 12px; vertical-align: top;">
+                                    <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Share Tech Mono', monospace;">Level</div>
+                                    <div class="level-meter-container">
+                                        <div>
+                                            <div class="level-meter">
+                                                <div class="level-meter-fill" id="meter-l" style="height: 0%;"></div>
+                                                <div class="level-meter-peak" id="peak-l" style="bottom: 0%;"></div>
+                                            </div>
+                                            <div class="level-label">L</div>
+                                        </div>
+                                        <div>
+                                            <div class="level-meter">
+                                                <div class="level-meter-fill" id="meter-r" style="height: 0%;"></div>
+                                                <div class="level-meter-peak" id="peak-r" style="bottom: 0%;"></div>
+                                            </div>
+                                            <div class="level-label">R</div>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr></table>
                         </div>
                     </td>
@@ -867,11 +1503,16 @@
         <td colspan="2" class="footer">
             <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td><span class="led" id="led"></span><span id="status-text">Ready</span></td>
+                    <td>
+                        <span class="led" id="led"></span>
+                        <span class="midi-led" id="midi-led" title="MIDI Activity"></span>
+                        <span id="status-text">Ready</span>
+                        <span class="voice-count" id="voice-count" title="Active voices">0/8</span>
+                    </td>
                     <td align="right">
                         <span class="badge">Faust DSP</span>
-                        <span class="badge">JUCE</span>
-                        <span class="badge">8 Voices</span>
+                        <span class="badge">JUCE 8</span>
+                        <span class="badge">WebView2</span>
                     </td>
                 </tr>
             </table>
@@ -883,8 +1524,38 @@
 var currentTheme = 'celestial';
 var params = {};
 var dragging = null;
+var lastDraggedParam = null;
+var lastDragEndTime = 0;
+var lastClickedParam = null;
+var lastClickTime = 0;
 var dragStartY = 0;
 var dragStartVal = 0;
+
+// Peak hold for level meters
+var peakL = 0, peakR = 0;
+var peakDecay = 0.995;
+var peakHoldTime = 60; // frames
+var peakHoldL = 0, peakHoldR = 0;
+
+// Spectrum peak hold
+var spectrumPeaks = new Array(256).fill(0);
+var spectrumPeakDecay = 0.98;
+
+// Default parameter values for init
+var defaultParams = {
+    osc1_wave: 0, osc1_octave: 0, osc1_semi: 0, osc1_fine: 0, osc1_pw: 0.5, osc1_gain: 0.7, osc1_pan: 0,
+    osc2_wave: 0, osc2_octave: 0, osc2_semi: 0, osc2_fine: 0, osc2_pw: 0.5, osc2_gain: 0.7, osc2_pan: 0,
+    sub_wave: 0, sub_octave: 1, sub_level: 0,
+    noise_type: 0, noise_level: 0,
+    filter_cutoff: 8000, filter_reso: 1, filter_env: 0.3, filter_key: 0, filter_drive: 1,
+    amp_a: 0.01, amp_d: 0.2, amp_s: 0.7, amp_r: 0.3,
+    flt_a: 0.01, flt_d: 0.3, flt_s: 0.3, flt_r: 0.5,
+    exciter_freq: 3000, exciter_drive: 0.5, exciter_mix: 0,
+    chorus_rate: 0.8, chorus_depth: 0.5, chorus_wet: 0,
+    delay_time: 0.375, delay_fdbk: 0.4, delay_wet: 0,
+    reverb_type: 0, reverb_size: 0.6, reverb_wet: 0,
+    master_width: 1, master_gain: -12, oversampling: 0
+};
 
 function setTheme(name) {
     currentTheme = name;
@@ -923,6 +1594,19 @@ function sendParam(name, value) {
     console.log('[Param] ' + name + ' = ' + value);
 }
 
+function sendSelect(name, value) {
+    lastClickedParam = name;
+    lastClickTime = Date.now();
+    sendParam(name, value);
+}
+
+function setUIScale(scale) {
+    scale = parseFloat(scale);
+    if (typeof __JUCE__ !== 'undefined' && __JUCE__.backend) {
+        __JUCE__.backend.getNativeFunction('setScale')(scale);
+    }
+}
+
 function setWave(param, value, btn) {
     var parent = btn.parentNode;
     var btns = parent.getElementsByTagName('button');
@@ -930,6 +1614,8 @@ function setWave(param, value, btn) {
         btns[i].className = 'wave-btn';
     }
     btn.className = 'wave-btn wave-btn-active';
+    lastClickedParam = param;
+    lastClickTime = Date.now();
     sendParam(param, value);
 }
 
@@ -994,7 +1680,7 @@ function initKnobs() {
         var knob = knobs[i];
         var val = parseFloat(knob.getAttribute('data-val'));
         updateKnob(knob, val);
-        
+
         (function(k) {
             k.onmousedown = function(e) {
                 e.preventDefault();
@@ -1006,7 +1692,86 @@ function initKnobs() {
                     dragStartVal = parseFloat(k.getAttribute('data-val'));
                 }
             };
+            // Double-click to reset to default
+            k.ondblclick = function(e) {
+                e.preventDefault();
+                var param = k.getAttribute('data-p');
+                var defaultVal = parseFloat(k.getAttribute('data-val'));
+                updateKnob(k, defaultVal);
+                sendParam(param, defaultVal);
+            };
         })(knob);
+    }
+}
+
+// Initialize patch to defaults
+function initPatch() {
+    for (var param in defaultParams) {
+        var val = defaultParams[param];
+        var knob = document.getElementById('knob-' + param);
+        if (knob) {
+            updateKnob(knob, val);
+        }
+        sendParam(param, val);
+
+        // Handle wave selectors
+        if (param.indexOf('_wave') !== -1 || param === 'sub_octave' || param === 'noise_type' || param === 'reverb_type' || param === 'oversampling') {
+            var sel = document.getElementById(param);
+            if (sel) sel.value = val;
+        }
+    }
+    // Reset wave buttons
+    setWaveByValue('osc1_wave', 0);
+    setWaveByValue('osc2_wave', 0);
+    document.getElementById('preset-name').textContent = 'Init';
+}
+
+// Randomize parameters
+function randomizePatch() {
+    var randomizable = [
+        'osc1_octave', 'osc1_semi', 'osc1_fine', 'osc1_pw', 'osc1_gain', 'osc1_pan',
+        'osc2_octave', 'osc2_semi', 'osc2_fine', 'osc2_pw', 'osc2_gain', 'osc2_pan',
+        'sub_level', 'noise_level',
+        'filter_cutoff', 'filter_reso', 'filter_env', 'filter_key',
+        'amp_a', 'amp_d', 'amp_s', 'amp_r',
+        'flt_a', 'flt_d', 'flt_s', 'flt_r',
+        'chorus_rate', 'chorus_depth', 'chorus_wet',
+        'delay_time', 'delay_fdbk', 'delay_wet',
+        'reverb_size', 'reverb_wet',
+        'master_width'
+    ];
+
+    for (var i = 0; i < randomizable.length; i++) {
+        var param = randomizable[i];
+        var knob = document.getElementById('knob-' + param);
+        if (knob) {
+            var min = parseFloat(knob.getAttribute('data-min'));
+            var max = parseFloat(knob.getAttribute('data-max'));
+            var val = min + Math.random() * (max - min);
+            var step = parseFloat(knob.getAttribute('data-step'));
+            val = Math.round(val / step) * step;
+            updateKnob(knob, val);
+            sendParam(param, val);
+        }
+    }
+
+    // Random waves
+    var osc1Wave = Math.floor(Math.random() * 7);
+    var osc2Wave = Math.floor(Math.random() * 7);
+    setWaveByValue('osc1_wave', osc1Wave);
+    setWaveByValue('osc2_wave', osc2Wave);
+    sendParam('osc1_wave', osc1Wave);
+    sendParam('osc2_wave', osc2Wave);
+
+    document.getElementById('preset-name').textContent = 'Random';
+}
+
+function setWaveByValue(param, value) {
+    var container = document.getElementById(param.replace('_wave', '-waves'));
+    if (!container) return;
+    var btns = container.getElementsByTagName('button');
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].className = i === value ? 'wave-btn wave-btn-active' : 'wave-btn';
     }
 }
 
@@ -1045,14 +1810,39 @@ document.onmousemove = function(e) {
 };
 
 document.onmouseup = function() {
+    if (dragging) {
+        lastDraggedParam = dragging.getAttribute('data-p');
+        lastDragEndTime = Date.now();
+        dragging.classList.remove('dragging');
+    }
     dragging = null;
 };
 
 // JUCE callback
 window.updateParameter = function(param, value) {
+    // Don't update while dragging
+    if (dragging) return;
+    // Skip updates for recently interacted params for 500ms
+    if (param === lastDraggedParam && Date.now() - lastDragEndTime < 500) return;
+    if (param === lastClickedParam && Date.now() - lastClickTime < 500) return;
+
+    // Handle knobs
     var knob = document.getElementById('knob-' + param);
     if (knob) {
         updateKnob(knob, value);
+        return;
+    }
+
+    // Handle wave buttons
+    if (param.indexOf('_wave') !== -1 && param !== 'sub_wave') {
+        setWaveByValue(param, Math.round(value));
+        return;
+    }
+
+    // Handle dropdowns (sub_wave, sub_octave, noise_type, reverb_type, oversampling)
+    var sel = document.getElementById(param);
+    if (sel && sel.tagName === 'SELECT') {
+        sel.value = Math.round(value);
     }
 };
 
@@ -1112,6 +1902,11 @@ function setScopeMode(mode) {
             btn.classList.add('active');
         }
     });
+    // Show/hide frequency labels
+    var freqLabels = document.getElementById('freq-labels');
+    if (freqLabels) {
+        freqLabels.style.display = mode === 'spectrum' ? 'flex' : 'none';
+    }
 }
 
 function animateScope() {
@@ -1190,16 +1985,33 @@ function animateScope() {
     scopeAnimId = requestAnimationFrame(animateScope);
 }
 
+// Store previous waveform for trail effect
+var prevWaveform = new Array(256).fill(0);
+var waveTrailAlpha = 0.3;
+
 function drawWaveform(w, h, accent, glow) {
     var cy = h / 2;
     var amp = h * 0.4;
 
-    // Glow layer
+    // Draw trail (previous waveform faded)
     scopeCtx.strokeStyle = accent;
-    scopeCtx.lineWidth = 4;
-    scopeCtx.globalAlpha = 0.2;
+    scopeCtx.lineWidth = 2;
+    scopeCtx.globalAlpha = waveTrailAlpha * 0.3;
     scopeCtx.lineCap = 'round';
     scopeCtx.lineJoin = 'round';
+
+    scopeCtx.beginPath();
+    for (var t = 0; t < 256; t++) {
+        var tx = (t / 255) * w;
+        var ty = cy - prevWaveform[t] * amp;
+        if (t === 0) scopeCtx.moveTo(tx, ty);
+        else scopeCtx.lineTo(tx, ty);
+    }
+    scopeCtx.stroke();
+
+    // Outer glow layer
+    scopeCtx.lineWidth = 6;
+    scopeCtx.globalAlpha = 0.15;
 
     scopeCtx.beginPath();
     for (var i = 0; i < 256; i++) {
@@ -1210,11 +2022,24 @@ function drawWaveform(w, h, accent, glow) {
     }
     scopeCtx.stroke();
 
+    // Middle glow layer
+    scopeCtx.lineWidth = 4;
+    scopeCtx.globalAlpha = 0.25;
+
+    scopeCtx.beginPath();
+    for (var g = 0; g < 256; g++) {
+        var gx = (g / 255) * w;
+        var gy = cy - scopeData[g] * amp;
+        if (g === 0) scopeCtx.moveTo(gx, gy);
+        else scopeCtx.lineTo(gx, gy);
+    }
+    scopeCtx.stroke();
+
     // Main line
     scopeCtx.lineWidth = 2;
     scopeCtx.globalAlpha = 1;
     scopeCtx.shadowColor = accent;
-    scopeCtx.shadowBlur = 8;
+    scopeCtx.shadowBlur = 12;
 
     scopeCtx.beginPath();
     for (var j = 0; j < 256; j++) {
@@ -1225,6 +2050,11 @@ function drawWaveform(w, h, accent, glow) {
     }
     scopeCtx.stroke();
     scopeCtx.shadowBlur = 0;
+
+    // Update trail
+    for (var p = 0; p < 256; p++) {
+        prevWaveform[p] = prevWaveform[p] * 0.7 + scopeData[p] * 0.3;
+    }
 }
 
 function drawSpectrum(w, h, accent, glow) {
@@ -1242,6 +2072,13 @@ function drawSpectrum(w, h, accent, glow) {
         var barH = val * maxH;
         if (barH < 1) barH = 1;
 
+        // Update peak hold
+        if (val > spectrumPeaks[j]) {
+            spectrumPeaks[j] = val;
+        } else {
+            spectrumPeaks[j] *= spectrumPeakDecay;
+        }
+
         var x = j * barWidth;
         var y = h - barH - 2;
 
@@ -1249,6 +2086,11 @@ function drawSpectrum(w, h, accent, glow) {
         scopeCtx.fillStyle = accent;
         scopeCtx.globalAlpha = 0.4 + val * 0.6;
         scopeCtx.fillRect(x, y, barWidth - 0.5, barH);
+
+        // Draw peak hold line
+        var peakY = h - spectrumPeaks[j] * maxH - 2;
+        scopeCtx.globalAlpha = 0.8;
+        scopeCtx.fillRect(x, peakY, barWidth - 0.5, 2);
     }
 
     scopeCtx.shadowBlur = 0;
@@ -1281,6 +2123,37 @@ window.onload = function() {
     initKnobs();
     setTheme('celestial');
     initScope();
+    startFXActiveCheck();
+    startMeterAnimation();
+
+    // Load saved parameters from backend on startup
+    if (typeof __JUCE__ !== 'undefined' && __JUCE__.backend) {
+        __JUCE__.backend.getNativeFunction('getAllParameters')().then(function(savedParams) {
+            if (savedParams) {
+                for (var param in savedParams) {
+                    var value = savedParams[param];
+                    params[param] = value;
+
+                    // Update knobs
+                    var knob = document.getElementById('knob-' + param);
+                    if (knob) {
+                        updateKnob(knob, value);
+                    }
+
+                    // Update wave buttons
+                    if (param.indexOf('_wave') !== -1 && param !== 'sub_wave') {
+                        setWaveByValue(param, Math.round(value));
+                    }
+
+                    // Update dropdowns
+                    var sel = document.getElementById(param);
+                    if (sel && sel.tagName === 'SELECT') {
+                        sel.value = Math.round(value);
+                    }
+                }
+            }
+        });
+    }
 };
 
 // Handle resize
@@ -1288,8 +2161,113 @@ window.onresize = function() {
     if (scopeAnimId) cancelAnimationFrame(scopeAnimId);
     initScope();
 };
+
+// =================================================================
+// FX ACTIVE GLOW
+// =================================================================
+function startFXActiveCheck() {
+    setInterval(function() {
+        checkFXActive('exciter_mix', 0);
+        checkFXActive('chorus_wet', 1);
+        checkFXActive('delay_wet', 2);
+        checkFXActive('reverb_wet', 3);
+    }, 100);
+}
+
+function checkFXActive(param, panelIndex) {
+    var val = params[param] || 0;
+    var panels = document.querySelectorAll('.panel');
+    // FX panels are in the effects row - find by fx-title
+    var fxPanels = [];
+    panels.forEach(function(p) {
+        if (p.querySelector('.fx-title')) fxPanels.push(p);
+    });
+    if (fxPanels[panelIndex]) {
+        if (val > 0.01) {
+            fxPanels[panelIndex].classList.add('fx-active');
+        } else {
+            fxPanels[panelIndex].classList.remove('fx-active');
+        }
+    }
+}
+
+// =================================================================
+// LEVEL METERS
+// =================================================================
+var meterLevelL = 0, meterLevelR = 0;
+var meterPeakL = 0, meterPeakR = 0;
+var meterPeakHoldL = 0, meterPeakHoldR = 0;
+
+function startMeterAnimation() {
+    animateMeters();
+}
+
+function animateMeters() {
+    // Decay current levels
+    meterLevelL *= 0.85;
+    meterLevelR *= 0.85;
+
+    // Decay peak hold
+    meterPeakHoldL--;
+    meterPeakHoldR--;
+    if (meterPeakHoldL <= 0) meterPeakL *= 0.95;
+    if (meterPeakHoldR <= 0) meterPeakR *= 0.95;
+
+    // Update DOM
+    var fillL = document.getElementById('meter-l');
+    var fillR = document.getElementById('meter-r');
+    var peakLEl = document.getElementById('peak-l');
+    var peakREl = document.getElementById('peak-r');
+
+    if (fillL) fillL.style.height = (meterLevelL * 100) + '%';
+    if (fillR) fillR.style.height = (meterLevelR * 100) + '%';
+    if (peakLEl) peakLEl.style.bottom = (meterPeakL * 100) + '%';
+    if (peakREl) peakREl.style.bottom = (meterPeakR * 100) + '%';
+
+    requestAnimationFrame(animateMeters);
+}
+
+// JUCE can call this to update meter levels
+window.updateMeterLevels = function(left, right) {
+    meterLevelL = Math.max(meterLevelL, Math.abs(left));
+    meterLevelR = Math.max(meterLevelR, Math.abs(right));
+
+    if (meterLevelL > meterPeakL) {
+        meterPeakL = meterLevelL;
+        meterPeakHoldL = 30; // Hold for 30 frames
+    }
+    if (meterLevelR > meterPeakR) {
+        meterPeakR = meterLevelR;
+        meterPeakHoldR = 30;
+    }
+};
+
+// =================================================================
+// MIDI ACTIVITY
+// =================================================================
+var midiLedTimeout = null;
+
+window.midiActivity = function() {
+    var led = document.getElementById('midi-led');
+    if (led) {
+        led.classList.add('active');
+        if (midiLedTimeout) clearTimeout(midiLedTimeout);
+        midiLedTimeout = setTimeout(function() {
+            led.classList.remove('active');
+        }, 100);
+    }
+};
+
+// =================================================================
+// VOICE COUNT
+// =================================================================
+window.updateVoiceCount = function(active, total) {
+    var el = document.getElementById('voice-count');
+    if (el) {
+        el.textContent = active + '/' + total;
+    }
+};
 </script>
-```
 
 </body>
 </html>
