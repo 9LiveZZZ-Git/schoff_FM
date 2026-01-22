@@ -28,9 +28,6 @@ PluginEditor::PluginEditor(PluginProcessor& p)
                   })
       )
 {
-    setResizable(true, true);
-    setResizeLimits(baseWidth / 2, baseHeight / 2, baseWidth * 2, baseHeight * 2);
-    getConstrainer()->setFixedAspectRatio((double)baseWidth / (double)baseHeight);
     setSize(baseWidth, baseHeight);
     addAndMakeVisible(webView);
 

@@ -1602,8 +1602,10 @@ function sendSelect(name, value) {
 
 function setUIScale(scale) {
     scale = parseFloat(scale);
-    if (typeof __JUCE__ !== 'undefined' && __JUCE__.backend) {
-        __JUCE__.backend.getNativeFunction('setScale')(scale);
+    var synth = document.getElementById('synth');
+    if (synth) {
+        synth.style.transform = 'scale(' + scale + ')';
+        synth.style.transformOrigin = 'top center';
     }
 }
 
