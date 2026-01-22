@@ -24,6 +24,8 @@ private:
                            juce::WebBrowserComponent::NativeFunctionCompletion completion);
     void handleGetAllParameters(const juce::Array<juce::var>& args,
                                 juce::WebBrowserComponent::NativeFunctionCompletion completion);
+    void handleSetScale(const juce::Array<juce::var>& args,
+                        juce::WebBrowserComponent::NativeFunctionCompletion completion);
 
     void syncParametersToUI();
     void sendSpectrumToWebView();
@@ -31,6 +33,10 @@ private:
 
     PluginProcessor& processor;
     juce::WebBrowserComponent webView;
+
+    static constexpr int baseWidth = 920;
+    static constexpr int baseHeight = 680;
+    float currentScale = 1.0f;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PluginEditor)
 };

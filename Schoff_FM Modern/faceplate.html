@@ -1457,6 +1457,20 @@
                                         <div class="select-arrow"></div>
                                     </div>
                                 </td>
+                                <td style="padding-left: 8px; vertical-align: top;">
+                                    <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Share Tech Mono', monospace;">UI Scale</div>
+                                    <div class="select-wrap">
+                                        <select class="styled-select" style="width: 60px;" id="ui-scale" onchange="setUIScale(this.value)">
+                                            <option value="0.5">50%</option>
+                                            <option value="0.75">75%</option>
+                                            <option value="1" selected>100%</option>
+                                            <option value="1.25">125%</option>
+                                            <option value="1.5">150%</option>
+                                            <option value="2">200%</option>
+                                        </select>
+                                        <div class="select-arrow"></div>
+                                    </div>
+                                </td>
                                 <td style="padding-left: 12px; vertical-align: top;">
                                     <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Share Tech Mono', monospace;">Level</div>
                                     <div class="level-meter-container">
@@ -1584,6 +1598,13 @@ function sendSelect(name, value) {
     lastClickedParam = name;
     lastClickTime = Date.now();
     sendParam(name, value);
+}
+
+function setUIScale(scale) {
+    scale = parseFloat(scale);
+    if (typeof __JUCE__ !== 'undefined' && __JUCE__.backend) {
+        __JUCE__.backend.getNativeFunction('setScale')(scale);
+    }
 }
 
 function setWave(param, value, btn) {

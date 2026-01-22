@@ -21,9 +21,17 @@ PluginEditor::PluginEditor(PluginProcessor& p)
                          juce::WebBrowserComponent::NativeFunctionCompletion completion) {
                       handleGetAllParameters(args, std::move(completion));
                   })
+              .withNativeFunction("setScale",
+                  [this](const juce::Array<juce::var>& args,
+                         juce::WebBrowserComponent::NativeFunctionCompletion completion) {
+                      handleSetScale(args, std::move(completion));
+                  })
       )
 {
-    setSize(920, 680);
+    setResizable(true, true);
+    setResizeLimits(baseWidth / 2, baseHeight / 2, baseWidth * 2, baseHeight * 2);
+    getConstrainer()->setFixedAspectRatio((double)baseWidth / (double)baseHeight);
+    setSize(baseWidth, baseHeight);
     addAndMakeVisible(webView);
 
     // Load faceplate.html from the same folder as the executable
@@ -244,4 +252,23 @@ void PluginEditor::sendWaveformToWebView()
 
     js += "]);}";
     webView.evaluateJavascript(js, nullptr);
+}
+
+void PluginEditor::handleSetScale(const juce::Array<juce::var>& args,
+                                   juce::WebBrowserComponent::NativeFunctionCompletion completion)
+{
+    if (args.size() >= 1)
+    {
+        float scale = static_cast<float>(args[0]);
+        if (scale >= 0.5f && scale <= 2.0f)
+        {
+            currentScale = scale;
+            int newWidth = static_cast<int>(baseWidth * scale);
+            int newHeight = static_cast<int>(baseHeight * scale);
+            setSize(newWidth, newHeight);
+            completion(juce::var(true));
+            return;
+        }
+    }
+    completion(juce::var(false));
 }
