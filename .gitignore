@@ -35,10 +35,6 @@ local.properties
 # Legacy/unused files (keep locally but don't track)
 JuceLibraryCode/
 Old HTMLs/
-Schoff_FM (old CSS)/
-*.jucer
-*.dsp
-FaustAudioApplication.cpp
 JUCE_FFT_Integration.h
 JUCE_INTEGRATION_GUIDE.cpp
 schoffhauzer_faceplate_final.html
@@ -50,7 +46,15 @@ effect.h
 # Claude settings
 .claude/
 
-# Allow release binaries
+# Allow release binaries for Modern version
 !Schoff_FM Modern/*.exe
 !Schoff_FM Modern/*.dll
 !Schoff_FM Modern/*.vst3
+
+# Old CSS version - include sources and binaries
+!Schoff_FM (old CSS)/
+Schoff_FM (old CSS)/schoff_stereo/Builds/
+Schoff_FM (old CSS)/JuceLibraryCode_standalone/
+!Schoff_FM (old CSS)/*.exe
+!Schoff_FM (old CSS)/*.vst3
+!Schoff_FM (old CSS)/schoff_stereo.vst3/
