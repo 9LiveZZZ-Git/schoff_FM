@@ -51,10 +51,15 @@ effect.h
 !Schoff_FM Modern/*.dll
 !Schoff_FM Modern/*.vst3
 
-# Old CSS version - include sources and binaries
+# Old CSS version - include everything needed to build
 !Schoff_FM (old CSS)/
-Schoff_FM (old CSS)/schoff_stereo/Builds/
+!Schoff_FM (old CSS)/**
 Schoff_FM (old CSS)/JuceLibraryCode_standalone/
-!Schoff_FM (old CSS)/*.exe
-!Schoff_FM (old CSS)/*.vst3
-!Schoff_FM (old CSS)/schoff_stereo.vst3/
+Schoff_FM (old CSS)/schoff_stereo/Builds/**/x64/
+Schoff_FM (old CSS)/schoff_stereo/Builds/**/*.tlog/
+Schoff_FM (old CSS)/schoff_stereo/Builds/**/*.obj
+Schoff_FM (old CSS)/schoff_stereo/Builds/**/*.pdb
+Schoff_FM (old CSS)/schoff_stereo/Builds/**/*.iobj
+Schoff_FM (old CSS)/schoff_stereo/Builds/**/*.log
+Schoff_FM (old CSS)/schoff_stereo/Builds/**/*.res
+Schoff_FM (old CSS)/schoff_stereo/Builds/**/build/

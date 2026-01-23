@@ -1,6 +1,10 @@
 # Schoffhauzer FM Synthesizer
 
-A modern FM synthesizer plugin built with JUCE 8 and WebView2, featuring a sleek HTML/CSS user interface.
+A modern FM synthesizer plugin built with JUCE and featuring an HTML/CSS user interface.
+
+> **Note:** The **`Schoff_FM (old CSS)/`** folder contains the current stable, working version that builds on all platforms (Windows, macOS, Linux, iOS, Android). This version uses the legacy IE-compatible WebBrowserComponent which provides reliable cross-platform support. See the [Old CSS README](Schoff_FM%20(old%20CSS)/README.md) for build instructions.
+>
+> The `Schoff_FM Modern/` folder contains an experimental WebView2-based version for Windows only (work in progress).
 
 ## Features
 
@@ -93,7 +97,14 @@ The standalone exe uses the embedded faceplate.html by default. You can also pla
 
 ## Pre-built Binaries
 
-Pre-built Windows binaries are available in the `Schoff_FM Modern/` folder:
+### Stable Version (Recommended)
+Pre-built Windows binaries are available in the `Schoff_FM (old CSS)/` folder:
+- `schoff_stereo.exe` - Standalone application
+- `schoff_stereo.vst3/` - VST3 plugin
+- `schoff_FM.exe` - Original standalone
+
+### Experimental WebView2 Version (Windows Only)
+Pre-built Windows binaries in the `Schoff_FM Modern/` folder:
 - `schoff_FM.exe` - Standalone application
 - `schoff_FM.vst3/` - VST3 plugin
 - `faceplate.html` - UI template
